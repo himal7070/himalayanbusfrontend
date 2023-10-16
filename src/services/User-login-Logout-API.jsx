@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = '/himalayanbus';
+const API_URL = 'http://localhost:8080/himalayanbus';
 
 
 // -------------------------- function to log in a user ------------------------------------

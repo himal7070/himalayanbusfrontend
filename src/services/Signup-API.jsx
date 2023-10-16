@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-const API_URL = '/himalayanbus';
-
-
+const API_URL = 'http://localhost:8080/himalayanbus';
 
 // -------------------------- function to sign up a user --------------------------
-
 function signUpUser(user) {
     return axios.post(`${API_URL}/user/signup`, user)
         .then((response) => {

@@ -2,20 +2,50 @@ import React, {useCallback, useState} from 'react';
 import '../styles/userLoginSignup.css';
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {loginUser} from "../services/User-login-Logout-API.jsx";
+import {toast} from "react-toastify";
 import {signUpUser} from "../services/Signup-API.jsx";
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginSignup() {
 
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
 
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+    });
+
+    const clearForm = () => {
+        setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            password: '',
+        });
+    };
+
+    const handleFormChange = (e, fieldName) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [fieldName]: value,
+        }));
+    }
+
     const handleTabChange = useCallback((tab) => {
         setActiveTab(tab);
     }, []);
 
+
     const toggleShowPassword = useCallback(() => {
         setShowPassword(!showPassword);
     }, [showPassword]);
+
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -24,33 +54,48 @@ function LoginSignup() {
 
         loginUser(email, password)
             .then((sessionKey) => {
+                toast.success('Login successful', {
+                    position: "top-right",
+                });
+
+                window.location.href = '/dashboard';
 
             })
             .catch((error) => {
+                toast.error('Login failed. Please check your credentials.', {
+                    position: "top-right",
+                });
                 console.error(error);
             });
-
     };
 
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        password: ''
-    });
 
-    const handleSignup = () => {
+    const handleSignup = (event) => {
+        event.preventDefault();
+
+        const user = {
+            firstName: event.target.firstName.value,
+            lastName: event.target.lastName.value,
+            email: event.target.email.value,
+            phoneNumber: event.target.phoneNumber.value,
+            password: event.target.password.value
+        };
+
         signUpUser(user)
             .then((data) => {
-                console.log('User signed up:', data);
+                clearForm();
+                console.log('Signup successful:', data);
+                toast.success('Signup successful. You can now log in.', {
+                    position: "top-right",
+                });
             })
             .catch((error) => {
                 console.error('Signup failed:', error);
+                toast.error('Signup failed. You have already an account with this email address.', {
+                    position: "top-right",
+                });
             });
     };
-
-
 
 
 
@@ -126,6 +171,8 @@ function LoginSignup() {
                                                     placeholder="First Name"
                                                     required
                                                     name = "firstName"
+                                                    value={formData.firstName}
+                                                    onChange={(e) => handleFormChange(e, 'firstName')}
                                                 />
                                             </div>
                                             <div className="Field">
@@ -134,6 +181,8 @@ function LoginSignup() {
                                                     placeholder="Last Name"
                                                     required
                                                     name = "lastName"
+                                                    value={formData.lastName}
+                                                    onChange={(e) => handleFormChange(e, 'lastName')}
                                                 />
                                             </div>
                                             <div className="Field">
@@ -142,6 +191,8 @@ function LoginSignup() {
                                                     placeholder="Email Address"
                                                     required
                                                     name="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => handleFormChange(e, 'email')}
                                                 />
                                             </div>
                                             <div className="Field">
@@ -150,6 +201,8 @@ function LoginSignup() {
                                                     placeholder="Mobile Number"
                                                     required
                                                     name="phoneNumber"
+                                                    value={formData.phoneNumber}
+                                                    onChange={(e) => handleFormChange(e, 'phoneNumber')}
                                                 />
                                             </div>
                                             <div className="Field">
@@ -160,6 +213,8 @@ function LoginSignup() {
                                                         required
                                                         className="PasswordInput InputClass"
                                                         name= "password"
+                                                        value={formData.password}
+                                                        onChange={(e) => handleFormChange(e, 'password')}
                                                     />
                                                     <button
                                                         type="button"
