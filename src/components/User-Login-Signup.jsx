@@ -5,11 +5,41 @@ import {loginUser} from "../services/User-login-Logout-API.jsx";
 import {toast} from "react-toastify";
 import {signUpUser} from "../services/Signup-API.jsx";
 import 'react-toastify/dist/ReactToastify.css';
-
+import log from 'loglevel';
 function LoginSignup() {
 
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
+
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        loginUser(email, password)
+            .then((sessionKey) => {
+                localStorage.setItem('sessionKey', sessionKey);
+
+                toast.success('Login successful', {
+                    position: "top-right",
+                });
+
+                log.info('Login successful');
+
+                window.location.href = '/dashboard';
+            })
+            .catch((error) => {
+                toast.error('Login failed. Please check your credentials.', {
+                    position: "top-right",
+                });
+
+                log.error('Login failed:', error);
+            });
+    };
+
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -47,27 +77,6 @@ function LoginSignup() {
     }, [showPassword]);
 
 
-    const handleLogin = (event) => {
-        event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
-
-        loginUser(email, password)
-            .then((sessionKey) => {
-                toast.success('Login successful', {
-                    position: "top-right",
-                });
-
-                window.location.href = '/dashboard';
-
-            })
-            .catch((error) => {
-                toast.error('Login failed. Please check your credentials.', {
-                    position: "top-right",
-                });
-                console.error(error);
-            });
-    };
 
 
     const handleSignup = (event) => {
@@ -129,6 +138,7 @@ function LoginSignup() {
                                                     placeholder="Email Address"
                                                     required
                                                     name = "email"
+                                                    onChange={(e) => setLoginEmail(e.target.value)}
                                                 />
                                             </div>
                                             <div className="Field">
@@ -139,6 +149,7 @@ function LoginSignup() {
                                                         required
                                                         className="PasswordInput InputClass"
                                                         name="password"
+                                                        onChange={(e) => setLoginPassword(e.target.value)}
                                                     />
                                                     <button
                                                         type="button"
