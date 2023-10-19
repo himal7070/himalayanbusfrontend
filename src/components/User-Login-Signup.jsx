@@ -6,13 +6,18 @@ import {toast} from "react-toastify";
 import {signUpUser} from "../services/Signup-API.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
-function LoginSignup() {
+
+// eslint-disable-next-line react/prop-types
+function LoginSignup({ onLogin }) {
 
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
 
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
+
+
+
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -29,7 +34,8 @@ function LoginSignup() {
 
                 log.info('Login successful');
 
-                window.location.href = '/dashboard';
+                onLogin();
+
             })
             .catch((error) => {
                 toast.error('Login failed. Please check your credentials.', {

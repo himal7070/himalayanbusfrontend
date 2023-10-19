@@ -1,0 +1,146 @@
+
+/*---------------------------------------- sidebar css progress ----------------------------------------*/
+
+
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 28px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.collapsible {
+    position: fixed;
+    width: 60px;
+    padding: 0;
+}
+
+.my-logo-name{
+
+    justify-content: center;
+    font-size: 25px;
+}
+
+.collapsible .my-logo-name{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar-toggle{
+    outline: none !important;
+    border: none;
+    justify-content: flex-end;
+
+}
+
+.menu li a:hover i,
+.menu li a:hover .menu-item-nav{
+    color: blue;
+}
+
+
+
+.menu{
+    margin-top: 40px;
+    height: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu li a{
+
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+}
+
+.menu li{
+    list-style: none;
+}
+
+.menu-items li a:hover:before{
+    content: "";
+    position: absolute;
+    left: -7px;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #0E4BF1, #3A3B3C);
+}
+
+.menu li a i{
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    /*background: linear-gradient(to bottom, #707070, #CCCCCC);*/
+}
+
+.menu li a .menu-item-nav{
+    font-size: 18px;
+    font-weight: 400;
+    color: #1a1a1a;
+}
+
+.collapsible li a .menu-item-nav{
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/*---------------------------------------- user actions yo yo here ----------------------------------------*/
+
+.menu .user-actions{
+    padding-bottom: 30px;
+
+}
+
+
+/*---------------------------------------- dark coder: dark mode ----------------------------------------*/
+
+.dark-mode .uil-moon::before {
+    content: '🌙';
+    margin-right: 5px;
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+}
+
+
+.dark .uil-moon {
+    transform: rotate(180deg);
+}
+
+.uil-moon {
+    margin-left: -2px;
+}
+
+body.dark {
+    background-color: #3A3B3C;
+
+}
+
+.dark .my-logo-name {
+    color: white !important;
+}
+
+.dark .sidebar {
+    background-color: #222;
+}
+
+.dark .menu li a i{
+    color: white;
+}
+
+.dark .menu li a .menu-item-nav{
+    color: white;
+}
+
