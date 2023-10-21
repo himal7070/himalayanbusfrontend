@@ -4,9 +4,9 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
 import LoginSignup from "./components/Authentication/LoginSignup.jsx";
-import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import {ToastContainer} from "react-toastify";
 import UserDashboard from "./components/User/UserDashboard.jsx";
+import AdminPage from "./components/Admin/AdminPage.jsx";
 
 log.setLevel(log.levels.DEBUG);
 
@@ -24,7 +24,7 @@ function App() {
                     <Route path="/user-dashboard" element={<UserDashboard />} />
                 )}
                 {userRole === 'admin' && (
-                    <Route path="/admin-dashboard" element={<AdminDashboard  isCollapsible/>} />
+                    <Route path="/admin-dashboard" element={<AdminPage/>} />
                 )}
             </Routes>
             <ToastContainer/>

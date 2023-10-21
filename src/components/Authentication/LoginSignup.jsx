@@ -6,8 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
 import {login} from "../../services/Authentication/Login-Logout-API.jsx";
 import {signUpUser} from "../../services/Authentication/Signup-API.jsx";
-import {useNavigate} from "react-router-dom";
-
 
 
 // eslint-disable-next-line react/prop-types
@@ -16,8 +14,8 @@ function LoginSignup({ onLogin }) {
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
 
-    const [loginEmail, setLoginEmail] = useState('');
-    const [loginPassword, setLoginPassword] = useState('');
+    const [, setLoginEmail] = useState('');
+    const [, setLoginPassword] = useState('');
 
     const [role, setRole] = useState('user');
 

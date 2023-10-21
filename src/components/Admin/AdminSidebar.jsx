@@ -1,19 +1,14 @@
-import React, {useState} from 'react';
 import '/src/styles/Admin/AdminSidebar.css';
 import useDarkMode from "../common/Dark-mode.jsx";
 import useAuthentication from "../common/Logout-handle.jsx";
 
 
-function AdminSidebar() {
+// eslint-disable-next-line react/prop-types
+function AdminSidebar({ isCollapsible, toggleSidebar }) {
 
-    const [isCollapsible, setIsCollapsible] = useState(false);
-    const { userRole, sessionKey, handleLogout } = useAuthentication();
-    const { isDarkMode, toggleDarkMode } = useDarkMode();
 
-    const toggleSidebar = () => {
-        setIsCollapsible(!isCollapsible);
-    };
-
+    const {handleLogout } = useAuthentication();
+    const {toggleDarkMode } = useDarkMode();
 
     return (
         <div className={`sidebar ${isCollapsible ? "collapsible" : ""}`}>
