@@ -1,32 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import '../styles/Sidebar.css';
-function Sidebar() {
+import React, {useState} from 'react';
+import '/src/styles/Admin/AdminSidebar.css';
+import useDarkMode from "../common/Dark-mode.jsx";
+import useAuthentication from "../common/Logout-handle.jsx";
+
+
+function AdminSidebar() {
 
     const [isCollapsible, setIsCollapsible] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const { userRole, sessionKey, handleLogout } = useAuthentication();
+    const { isDarkMode, toggleDarkMode } = useDarkMode();
 
     const toggleSidebar = () => {
         setIsCollapsible(!isCollapsible);
     };
 
-    useEffect(() => {
-        const body = document.body;
-        if (isDarkMode) {
-            body.classList.add('dark');
-        } else {
-            body.classList.remove('dark');
-        }
-    }, [isDarkMode]);
-
-    const toggleDarkMode = () => {
-        setIsDarkMode((prevMode) => !prevMode);
-    };
 
     return (
         <div className={`sidebar ${isCollapsible ? "collapsible" : ""}`}>
+
             <div className="header">
                 <span className="my-logo-name">Himalayan Bus</span>
-                <button className="uil-bars sidebar-toggle" onClick={toggleSidebar}></button>
+                <i className="uil-bars sidebar-toggle" onClick={toggleSidebar}></i>
             </div>
 
             <div className="menu">
@@ -71,7 +65,7 @@ function Sidebar() {
 
                 <ul className="user-actions">
                     <li>
-                        <a id="logoutButton">
+                        <a id="logoutButton" onClick={handleLogout} >
                             <i className="uil-signout"></i>
                             <span className="menu-item-nav">Logout</span>
                         </a>
@@ -89,4 +83,4 @@ function Sidebar() {
     );
 }
 
-export default Sidebar;
+export default AdminSidebar;

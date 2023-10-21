@@ -1,11 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import '../styles/userLoginSignup.css';
+import '/src/styles/Authentication/LoginSignup.css';
 import {FaEye, FaEyeSlash} from "react-icons/fa";
-import {loginUser} from "../services/User-login-Logout-API.jsx";
 import {toast} from "react-toastify";
-import {signUpUser} from "../services/Signup-API.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
+import {login} from "../../services/Authentication/Login-Logout-API.jsx";
+import {signUpUser} from "../../services/Authentication/Signup-API.jsx";
+import {useNavigate} from "react-router-dom";
+
+
 
 // eslint-disable-next-line react/prop-types
 function LoginSignup({ onLogin }) {
@@ -16,44 +19,46 @@ function LoginSignup({ onLogin }) {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
 
+    const [role, setRole] = useState('user');
 
-
-
-    const handleLogin = (event) => {
+    const handleLogin = (event, role) => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
 
-        loginUser(email, password)
-            .then((sessionKey) => {
+        login(email, password, role)
+            .then(sessionKey => {
                 localStorage.setItem('sessionKey', sessionKey);
-
-                toast.success('Login successful', {
+                localStorage.setItem('userRole', role);
+                toast.success(`${role} login successful`, {
                     position: "top-right",
                 });
-
-                log.info('Login successful');
-
+                log.info(`${role} login successful`);
                 onLogin();
 
+                if (role === 'user') {
+                    window.location.href ='/user-dashboard';
+                } else if (role === 'admin') {
+                    window.location.href ='/admin-dashboard';
+                }
             })
-            .catch((error) => {
-                toast.error('Login failed. Please check your credentials.', {
+            .catch(error => {
+                toast.error(`${role} login failed. Please check your credentials.`, {
                     position: "top-right",
                 });
-
-                log.error('Login failed:', error);
+                log.error(`${role} login failed:`, error);
             });
     };
 
 
-    const [formData, setFormData] = useState({
+    const  [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
         password: '',
     });
+
 
     const clearForm = () => {
         setFormData({
@@ -137,7 +142,7 @@ function LoginSignup({ onLogin }) {
                                 </div>
                                 <div className="FormInner">
                                     {activeTab === 'login' ? (
-                                        <form onSubmit={handleLogin} className="LoginForm">
+                                        <form onSubmit={(event) => handleLogin(event, role)} className="LoginForm">
                                             <div className="Field">
                                                 <input
                                                     type="text"
@@ -165,6 +170,13 @@ function LoginSignup({ onLogin }) {
                                                         {showPassword ? <FaEye /> : <FaEyeSlash />}
                                                     </button>
                                                 </div>
+                                            </div>
+                                            <div className="Field">
+                                                <label>Role:</label>
+                                                <select value={role} onChange={(e) => setRole(e.target.value)}>
+                                                    <option value="user">User</option>
+                                                    <option value="admin">Admin</option>
+                                                </select>
                                             </div>
 
                                             <div className="TextLink">
