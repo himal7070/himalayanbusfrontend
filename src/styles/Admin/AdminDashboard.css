@@ -2,11 +2,19 @@
 
 /*---------------------------------------- dashboard css updated ----------------------------------------*/
 
+.sidebar-toggle {
+    margin-right: 100%;
+    font-size: 30px;
+    color: black;
+}
+
+
+
 .dashboard-section {
     position: fixed;
     top: 0;
     left: 0;
-    width: calc(100% - 250px);
+    width: calc(100% - 350px);
     height: 100vh;
     z-index: 1;
     padding: 10px 24px;
@@ -17,7 +25,7 @@
     left: 230px;
     width: 100%;
     padding-left: 50px;
-    bottom: 10%;
+    height: 100vh;
 
 }
 
@@ -100,15 +108,54 @@
 
 /*------------need to think about collapse and overlapping dashboard content on side bar ....dark coder*/
 
+.dashboard-section.collapsible {
 
+
+
+}
 
 
 .dashboard-content.collapsible {
-    left: 100px;
-    width: calc(90% - 55px);
-    top: 5%;
+    left: 10px;
+    width: calc(100% - 0px);
 
 }
+
+
+@media (max-width: 768px) {
+    .dashboard-section {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .dashboard-content {
+        left: 0;
+        padding-right: 100px;
+
+        padding-left: 10px;
+        bottom: 0;
+    }
+
+    .dashboard-content.collapsible {
+        left: 60px;
+        width: 100%;
+    }
+}
+
+
+
+
+#overlay {
+    justify-content: flex-start;
+}
+
+
+
+
+
+
+
 
 
 

@@ -3,13 +3,13 @@ import '/src/styles/Authentication/LoginSignup.css';
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import log from 'loglevel';
-import {login} from "../../services/Authentication/Login-Logout-API.jsx";
-import {signUpUser} from "../../services/Authentication/Signup-API.jsx";
+import {login} from "../../services/CommonAPI/LoginAPI.jsx";
+import {addUser} from "../../services/User/UserServices.jsx";
+
 
 
 // eslint-disable-next-line react/prop-types
-function LoginSignup({ onLogin }) {
+function LoginSignup() {
 
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
@@ -17,46 +17,46 @@ function LoginSignup({ onLogin }) {
     const [, setLoginEmail] = useState('');
     const [, setLoginPassword] = useState('');
 
-    const [role, setRole] = useState('user');
 
-    const handleLogin = (event, role) => {
-        event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const email = e.target.elements.email.value;
+        const password = e.target.elements.password.value;
 
-        login(email, password, role)
-            .then(sessionKey => {
-                localStorage.setItem('sessionKey', sessionKey);
-                localStorage.setItem('userRole', role);
-                toast.success(`${role} login successful`, {
-                    position: "top-right",
-                });
-                log.info(`${role} login successful`);
-                onLogin();
+        try {
+            const { token, role } = await login(email, password);
 
-                if (role === 'user') {
-                    window.location.href ='/user-dashboard';
-                } else if (role === 'admin') {
-                    window.location.href ='/admin-dashboard';
-                }
-            })
-            .catch(error => {
-                toast.error(`${role} login failed. Please check your credentials.`, {
-                    position: "top-right",
-                });
-                log.error(`${role} login failed:`, error);
+            localStorage.setItem('token', token);
+            localStorage.setItem('userRole', role);
+
+            if (role === 'USER') {
+                window.location.href = '/user-dashboard';
+            } else if (role === 'ADMIN') {
+                window.location.href = '/admin-dashboard';
+            }
+
+            toast.success('Login successful!', {
+                position: 'top-right',
             });
+
+        } catch (error) {
+            toast.error('Login failed. Please try again.', {
+                position: 'top-right',
+            });
+        }
     };
 
 
-    const  [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        password: '',
-    });
 
+
+
+    const  [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    password: '',
+    });
 
     const clearForm = () => {
         setFormData({
@@ -87,7 +87,6 @@ function LoginSignup({ onLogin }) {
 
 
 
-
     const handleSignup = (event) => {
         event.preventDefault();
 
@@ -99,7 +98,7 @@ function LoginSignup({ onLogin }) {
             password: event.target.password.value
         };
 
-        signUpUser(user)
+        addUser(user)
             .then((data) => {
                 clearForm();
                 console.log('Signup successful:', data);
@@ -140,7 +139,7 @@ function LoginSignup({ onLogin }) {
                                 </div>
                                 <div className="FormInner">
                                     {activeTab === 'login' ? (
-                                        <form onSubmit={(event) => handleLogin(event, role)} className="LoginForm">
+                                        <form onSubmit={(event) => handleLogin(event)} className="LoginForm">
                                             <div className="Field">
                                                 <input
                                                     type="text"
@@ -168,13 +167,6 @@ function LoginSignup({ onLogin }) {
                                                         {showPassword ? <FaEye /> : <FaEyeSlash />}
                                                     </button>
                                                 </div>
-                                            </div>
-                                            <div className="Field">
-                                                <label>Role:</label>
-                                                <select value={role} onChange={(e) => setRole(e.target.value)}>
-                                                    <option value="user">User</option>
-                                                    <option value="admin">Admin</option>
-                                                </select>
                                             </div>
 
                                             <div className="TextLink">

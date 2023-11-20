@@ -3,8 +3,8 @@
 
 
 .sidebar {
-    position: fixed;
-    width: 250px;
+    position: absolute;
+    width: 275px;
     height: 100%;
     top: 0;
     left: 0;
@@ -19,6 +19,7 @@
     width: 60px;
     padding: 0;
 }
+
 
 
 
@@ -40,13 +41,14 @@
 }
 
 
-.sidebar-toggle {
-    border: none;
-    outline: none !important;
-    margin-left: 90px;
-    margin-top: -40px;
-    font-size: 25px;
-}
+/*.sidebar-toggle {*/
+/*    border: none;*/
+/*    outline: none !important;*/
+/*    margin-left: 90px;*/
+/*    margin-top: -40px;*/
+/*    font-size: 25px;*/
+/*    color: black;*/
+/*}*/
 
 
 
@@ -68,7 +70,7 @@
 
 
 .menu{
-    margin-top: 40px;
+    margin-top: 55px;
     height: calc(100% - 90px);
     display: flex;
     flex-direction: column;
@@ -100,7 +102,7 @@
 
 .menu li a i{
     font-size: 24px;
-    min-width: 45px;
+    min-width: 55px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -126,7 +128,7 @@
 
 /*---------------------------------------- user actions yo yo here ----------------------------------------*/
 
-.menu .user-actions{
+.user-logout-darkmode-actions{
     padding-bottom: 30px;
     cursor: pointer;
 

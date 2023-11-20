@@ -1,0 +1,22 @@
+
+table {
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 90%;
+    position: relative;
+    margin-left: 20px ;
+    color: white;
+
+}
+
+
+table td,table th {
+    padding-left: 8px
+}
+
+table thead tr {
+    height: 60px;
+    background: #36304a
+
+}

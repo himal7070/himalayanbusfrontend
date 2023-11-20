@@ -1,67 +1,73 @@
 import '/src/styles/Admin/AdminSidebar.css';
 import useDarkMode from "../common/Dark-mode.jsx";
-import useAuthentication from "../common/Logout-handle.jsx";
+import {Link} from "react-router-dom";
+import React from "react";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Logout from "../common/Logout-handle.jsx";
+
 
 
 // eslint-disable-next-line react/prop-types
-function AdminSidebar({ isCollapsible, toggleSidebar }) {
+function AdminSidebar({ isCollapsible }) {
 
 
-    const {handleLogout } = useAuthentication();
     const {toggleDarkMode } = useDarkMode();
 
     return (
-        <div className={`sidebar ${isCollapsible ? "collapsible" : ""}`}>
+
+
+        <nav className={`sidebar ${isCollapsible ? "collapsible" : ""}`}>
 
             <div className="header">
                 <span className="my-logo-name">Himalayan Bus</span>
-                <i className="uil-bars sidebar-toggle" onClick={toggleSidebar}></i>
+
             </div>
 
-            <div className="menu">
+
+            <nav className="menu">
                 <ul className="menu-items">
                     <li>
-                        <a href="">
-                            <i className="uil-estate"></i>
+                        <Link to="/admin-dashboard">
+                            <i className="bi-house-door-fill"></i>
                             <span className="menu-item-nav">Dashboard</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="">
-                            <i className="fi-rs-user"></i>
+                        <Link to="/admin-user">
+                            <i className="bi-person-fill"></i>
                             <span className="menu-item-nav">Users</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a href="">
-                            <i className="fi-rr-bus"></i>
+                            <i className="bi-bus-front-fill"></i>
                             <span className="menu-item-nav">Buses</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i className="fi-rr-memo-circle-check"></i>
+                            <i className="bi-calendar-check-fill"></i>
                             <span className="menu-item-nav">Reservations</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i className="fi-rr-smiley-comment-alt"></i>
+                            <i className="bi-chat-dots-fill"></i>
                             <span className="menu-item-nav">FeedBacks</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i className="fi-rs-route"></i>
+                            <i className="bi-geo-alt-fill"></i>
                             <span className="menu-item-nav">Routes</span>
                         </a>
                     </li>
                 </ul>
 
-                <ul className="user-actions">
+                <ul className="user-logout-darkmode-actions">
                     <li>
-                        <a id="logoutButton" onClick={handleLogout} >
-                            <i className="uil-signout"></i>
+                        <a id="logoutButton" onClick={Logout} >
+                            <i className="bi-arrow-left-circle-fill"></i>
                             <span className="menu-item-nav">Logout</span>
                         </a>
                     </li>
@@ -72,8 +78,9 @@ function AdminSidebar({ isCollapsible, toggleSidebar }) {
                         </a>
                     </li>
                 </ul>
-            </div>
-        </div>
+            </nav>
+        </nav>
+
 
     );
 }
