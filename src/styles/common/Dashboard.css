@@ -91,7 +91,7 @@
 }
 
 .dashboard-boxes .dashboard-box .dashboard-number {
-    font-size: 40px;
+    font-size: 19px;
     font-weight: 500;
     color: #000;
 }
@@ -105,44 +105,20 @@
 }
 
 
-
 /*------------need to think about collapse and overlapping dashboard content on side bar ....dark coder*/
 
+
 .dashboard-section.collapsible {
-
-
+    width: calc(100% - 60px);
+    transition: width 0.3s ease;
 
 }
-
 
 .dashboard-content.collapsible {
-    left: 10px;
-    width: calc(100% - 0px);
-
+    left: 77px;
+    width: calc(95% - 60px);
+    transition: left 0.3s ease, width 0.3s ease;
 }
-
-
-@media (max-width: 768px) {
-    .dashboard-section {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .dashboard-content {
-        left: 0;
-        padding-right: 100px;
-
-        padding-left: 10px;
-        bottom: 0;
-    }
-
-    .dashboard-content.collapsible {
-        left: 60px;
-        width: 100%;
-    }
-}
-
 
 
 
@@ -150,6 +126,26 @@
     justify-content: flex-start;
 }
 
+
+
+
+
+/*@media (max-width: 768px) {*/
+/*    !* Adjust the dashboard box layout for smaller screens *!*/
+/*    .dashboard-content .dashboard-boxes .dashboard-box {*/
+/*        width: calc(100% - 20px); !* Adjust the width for better fitting on smaller screens *!*/
+/*        margin-bottom: 20px; !* Add some spacing between boxes for readability *!*/
+/*        padding: 15px; !* Adjust the padding for better content visibility *!*/
+/*    }*/
+
+/*    .dashboard-boxes .dashboard-box .dashboard-name {*/
+/*        font-size: 16px; !* Decrease font size for better readability *!*/
+/*    }*/
+
+/*    .dashboard-boxes .dashboard-box .dashboard-number {*/
+/*        font-size: 16px; !* Decrease font size for better readability *!*/
+/*    }*/
+/*}*/
 
 
 

@@ -5,10 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
 import LoginSignup from "./components/Authentication/LoginSignup.jsx";
 import {ToastContainer} from "react-toastify";
-import UserDashboard from "./components/User/UserDashboard.jsx";
-import AdminSidebar from "./components/Admin/AdminSidebar.jsx";
+
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
-import AdminUsers from "./components/Admin/AdminUsers.jsx";
+
+import Reservation from "./components/Passenger/Reservation.jsx";
+import AdminPassenger from "./components/Admin/AdminPassenger.jsx";
+import SideNavbar from "./components/common/NavBar.jsx";
+
 
 log.setLevel(log.levels.DEBUG);
 
@@ -51,30 +54,21 @@ function App() {
 
         <Router>
             <div className="App">
-                {userRole === 'ADMIN' && (
-                    <>
-                    <AdminSidebar
-                        isCollapsible={isCollapsible}
-                    />
+                {userRole ? (
+                <SideNavbar isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />
+                ) : null}
 
-                    </>
-
-                )}
                 <Routes>
                     <Route path="/" element={<LoginSignup onLogin={() => {}} />} />
-                    {userRole === 'USER' && (
-                        <Route path="/user-dashboard" element={<UserDashboard />} />
-                    )}
-                    {userRole === 'ADMIN' && (
-                        <>
-                            <Route path="/admin-dashboard" element={<AdminDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar}/>} />
-                            <Route path="/admin-user" element={<AdminUsers isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
-                        </>
-                    )}
+                    <Route path="/passenger-reservation" element={<Reservation isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+                    <Route path="/admin-dashboard" element={<AdminDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+                    <Route path="/admin-passenger" element={<AdminPassenger isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
                 </Routes>
             </div>
             <ToastContainer />
         </Router>
+
+
 
     )
 }

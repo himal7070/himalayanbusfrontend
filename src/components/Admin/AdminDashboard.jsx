@@ -1,9 +1,33 @@
-import React from 'react';
-import '/src/styles/Admin/AdminDashboard.css'
+import React, {useEffect, useState} from 'react';
+import '/src/styles/common/Dashboard.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import {countAllPassengers} from "../../services/Passenger/PassengerService.jsx";
 
 // eslint-disable-next-line react/prop-types
 function AdminDashboard({ isCollapsible , toggleSidebar}) {
+
+
+    const [passengerCount, setPassengerCount] = useState(null);
+    const getAccessToken = () => {
+        return localStorage.getItem('accessToken');
+    };
+
+
+    const fetchPassengerCount = async () => {
+        try {
+            const accessToken = getAccessToken();
+            const count = await countAllPassengers(accessToken);
+            setPassengerCount(count);
+        } catch (error) {
+            console.error('Error fetching passenger count:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPassengerCount();
+    }, []);
+
+
 
 
     return (
@@ -35,8 +59,8 @@ function AdminDashboard({ isCollapsible , toggleSidebar}) {
                     <div style={{ marginTop: '30px' }} className="dashboard-boxes">
                         <div className="dashboard-box one">
                             <i className="bi-person-circle"></i>
-                            <span className="dashboard-name">Users Info</span>
-                            <span className="dashboard-number">--</span>
+                            <span className="dashboard-name">Passengers</span>
+                            <span className="dashboard-number">{passengerCount !== null ? passengerCount : '--'}</span>
                         </div>
                         <div className="dashboard-box one">
                             <i className="bi-bus-front-fill"></i>

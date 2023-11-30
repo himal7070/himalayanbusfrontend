@@ -1,22 +1,32 @@
-
+/* ---------aryal--------------- Table  -----------dark-coder------------- */
 table {
     border-collapse: collapse;
     border-radius: 10px;
     overflow: hidden;
     width: 90%;
     position: relative;
-    margin-left: 20px ;
-    color: white;
-
+    margin-left: 20px;
+    color: black;
+    background-color: black;
 }
 
-
-table td,table th {
-    padding-left: 8px
-}
 
 table thead tr {
     height: 60px;
-    background: #36304a
+    background: #36304a;
+    color: white;
+}
 
+/* Style table body */
+table tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+table td, table th {
+    padding-left: 8px;
 }

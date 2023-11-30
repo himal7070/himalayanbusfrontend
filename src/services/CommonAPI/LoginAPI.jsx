@@ -11,9 +11,9 @@ const login = async (email, password) => {
             password,
         });
 
-        const { token, role } = response.data;
+        const { accessToken, userRoles } = response.data;
 
-        return { token, role };
+        return { accessToken, userRoles };
     } catch (error) {
         throw error;
     }

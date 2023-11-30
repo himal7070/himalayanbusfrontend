@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 const Logout = () => {
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('userRole');
         toast.success('You are Logged out successfully!', {
             position: 'top-right',

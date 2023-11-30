@@ -265,3 +265,8 @@ input[type="radio"] {
 
 }
 
+/*.GoogleLoginButton {*/
+/*    position: relative;*/
+/*    z-index: 1000; !* Ensure a higher value if conflicting with other elements *!*/
+/*}*/
+

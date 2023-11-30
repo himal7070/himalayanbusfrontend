@@ -4,7 +4,10 @@ import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {login} from "../../services/CommonAPI/LoginAPI.jsx";
-import {addUser} from "../../services/User/UserServices.jsx";
+import {addPassenger} from "../../services/Passenger/PassengerService.jsx";
+import GoogleLoginButton from "./GoogleLogin .jsx";
+
+
 
 
 
@@ -18,20 +21,29 @@ function LoginSignup() {
     const [, setLoginPassword] = useState('');
 
 
+    const handleGoogleLogin = (response) => {
+        console.log('Google Login Response:', response);
+    };
+
+
+
+
+
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.elements.email.value;
         const password = e.target.elements.password.value;
 
         try {
-            const { token, role } = await login(email, password);
+            const { accessToken, userRoles } = await login(email, password);
 
-            localStorage.setItem('token', token);
-            localStorage.setItem('userRole', role);
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('userRole', userRoles);
 
-            if (role === 'USER') {
-                window.location.href = '/user-dashboard';
-            } else if (role === 'ADMIN') {
+            if (userRoles.includes('USER')) {
+                window.location.href = '/passenger-reservation';
+            } else if (userRoles.includes('ADMIN')) {
                 window.location.href = '/admin-dashboard';
             }
 
@@ -45,9 +57,6 @@ function LoginSignup() {
             });
         }
     };
-
-
-
 
 
     const  [formData, setFormData] = useState({
@@ -91,14 +100,16 @@ function LoginSignup() {
         event.preventDefault();
 
         const user = {
-            firstName: event.target.firstName.value,
-            lastName: event.target.lastName.value,
             email: event.target.email.value,
-            phoneNumber: event.target.phoneNumber.value,
-            password: event.target.password.value
+            password: event.target.password.value,
+            passenger: {
+                firstName: event.target.firstName.value,
+                lastName: event.target.lastName.value,
+                phoneNumber: event.target.phoneNumber.value,
+            },
         };
 
-        addUser(user)
+        addPassenger(user)
             .then((data) => {
                 clearForm();
                 console.log('Signup successful:', data);
@@ -146,6 +157,7 @@ function LoginSignup() {
                                                     placeholder="Email Address"
                                                     required
                                                     name = "email"
+                                                    autoComplete="email"
                                                     onChange={(e) => setLoginEmail(e.target.value)}
                                                 />
                                             </div>
@@ -157,6 +169,7 @@ function LoginSignup() {
                                                         required
                                                         className="PasswordInput InputClass"
                                                         name="password"
+                                                        autoComplete="current-password"
                                                         onChange={(e) => setLoginPassword(e.target.value)}
                                                     />
                                                     <button
@@ -181,9 +194,13 @@ function LoginSignup() {
                                             <div className="TextLink">
                                                 Not a member? <a href="#">Signup now</a>
                                             </div>
+
+                                            <br/>
+                                            <GoogleLoginButton handleGoogleLogin={handleGoogleLogin} />
                                         </form>
                                     ) : (
                                         <form onSubmit={handleSignup} className="SignupForm">
+
                                             <div className="Field">
                                                 <input
                                                     type="text"
@@ -210,6 +227,7 @@ function LoginSignup() {
                                                     placeholder="Email Address"
                                                     required
                                                     name="email"
+                                                    autoComplete="email"
                                                     value={formData.email}
                                                     onChange={(e) => handleFormChange(e, 'email')}
                                                 />
@@ -220,6 +238,7 @@ function LoginSignup() {
                                                     placeholder="Mobile Number"
                                                     required
                                                     name="phoneNumber"
+                                                    autoComplete="tel"
                                                     value={formData.phoneNumber}
                                                     onChange={(e) => handleFormChange(e, 'phoneNumber')}
                                                 />
@@ -232,6 +251,7 @@ function LoginSignup() {
                                                         required
                                                         className="PasswordInput InputClass"
                                                         name= "password"
+                                                        autoComplete="current-password"
                                                         value={formData.password}
                                                         onChange={(e) => handleFormChange(e, 'password')}
                                                     />
@@ -248,6 +268,8 @@ function LoginSignup() {
                                                 <div className="BtnLayer"></div>
                                                 <input type="submit" value="Signup" />
                                             </div>
+                                            <br/>
+
                                         </form>
                                     )}
                                 </div>
