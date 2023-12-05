@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '/src/styles/common/Dashboard.css'
-import '/src/styles/Admin/Table.css'
-import {getAllPassengers} from "../../services/Passenger/PassengerService.jsx";
+import '/src/styles/common/Table.css'
+import {getAllPassengers} from "../../services/PassengerService.jsx";
 
 
 // eslint-disable-next-line react/prop-types
@@ -42,7 +42,7 @@ function Passenger({ isCollapsible, toggleSidebar }) {
                         <i className="bi-person-fill"></i>
                         <span className="dashboard-name">Passengers</span>
                     </div>
-                    <div className="user-table-container" id="user-table-container">
+                    <div className="passenger-table-container">
                         <table>
                             <thead>
                             <tr>

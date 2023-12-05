@@ -7,7 +7,7 @@ import Logout from "../common/Logout-handle.jsx";
 
 // eslint-disable-next-line react/prop-types
 function SideNavbar({ isCollapsible }) {
-    const userRole = localStorage.getItem('userRole');
+    const userRoles = localStorage.getItem('userRoles');
     const {toggleDarkMode } = useDarkMode();
     return (
         <nav className={`sidebar ${isCollapsible ? "collapsible" : ""}`}>
@@ -16,7 +16,7 @@ function SideNavbar({ isCollapsible }) {
             </div>
             <nav className="menu">
                 <ul className="menu-items">
-                    {userRole === 'ADMIN' && (
+                    {userRoles === 'ADMIN' && (
                         <>
                             <li>
                                 <Link to="/admin-dashboard">
@@ -28,6 +28,12 @@ function SideNavbar({ isCollapsible }) {
                                 <Link to="/admin-passenger">
                                     <i className="bi-person-fill"></i>
                                     <span className="menu-item-nav">Passengers</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/admin-route">
+                                    <i className="bi-geo-alt-fill"></i>
+                                    <span className="menu-item-nav">Routes</span>
                                 </Link>
                             </li>
                             <li>
@@ -48,21 +54,29 @@ function SideNavbar({ isCollapsible }) {
                                     <span className="menu-item-nav">FeedBacks</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="">
-                                    <i className="bi-geo-alt-fill"></i>
-                                    <span className="menu-item-nav">Routes</span>
-                                </a>
-                            </li>
                         </>
                     )}
-                    {userRole === 'USER' && (
+                    {userRoles === 'USER' && (
+
+                        <>
                         <li>
                             <Link to="/passenger-reservation">
                                 <i className="bi-house-door-fill"></i>
                                 <span className="menu-item-nav">My Dashboard</span>
                             </Link>
                         </li>
+
+                            <li>
+                                <Link to="/my-reservation">
+                                    <i className="bi-calendar-check-fill"></i>
+                                    <span className="menu-item-nav">My Reservation</span>
+                                </Link>
+                            </li>
+
+                        </>
+
+
+
                     )}
                 </ul>
                 <ul className="user-logout-darkmode-actions">

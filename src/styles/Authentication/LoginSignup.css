@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+
 }
 
 html, body {
@@ -264,9 +265,4 @@ input[type="radio"] {
     outline: none;
 
 }
-
-/*.GoogleLoginButton {*/
-/*    position: relative;*/
-/*    z-index: 1000; !* Ensure a higher value if conflicting with other elements *!*/
-/*}*/
 

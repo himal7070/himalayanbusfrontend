@@ -3,12 +3,9 @@ import '/src/styles/Authentication/LoginSignup.css';
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {login} from "../../services/CommonAPI/LoginAPI.jsx";
-import {addPassenger} from "../../services/Passenger/PassengerService.jsx";
+import {login} from "../../services/LoginService.jsx";
+import {addPassenger} from "../../services/PassengerService.jsx";
 import GoogleLoginButton from "./GoogleLogin .jsx";
-
-
-
 
 
 // eslint-disable-next-line react/prop-types
@@ -30,6 +27,8 @@ function LoginSignup() {
 
 
 
+
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.elements.email.value;
@@ -39,7 +38,7 @@ function LoginSignup() {
             const { accessToken, userRoles } = await login(email, password);
 
             localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('userRole', userRoles);
+            localStorage.setItem('userRoles', userRoles);
 
             if (userRoles.includes('USER')) {
                 window.location.href = '/passenger-reservation';
@@ -59,6 +58,13 @@ function LoginSignup() {
     };
 
 
+
+
+
+
+
+
+
     const  [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -66,6 +72,7 @@ function LoginSignup() {
     phoneNumber: '',
     password: '',
     });
+
 
     const clearForm = () => {
         setFormData({
@@ -76,6 +83,7 @@ function LoginSignup() {
             password: '',
         });
     };
+
 
     const handleFormChange = (e, fieldName) => {
         const { value } = e.target;

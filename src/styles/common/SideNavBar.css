@@ -3,9 +3,10 @@
 
 
 .sidebar {
-    position: absolute;
+
+    position: fixed;
     width: 275px;
-    height: 100%;
+    height: 100vh;
     top: 0;
     left: 0;
     padding: 10px 28px;
@@ -14,12 +15,14 @@
 
 }
 
+
 .collapsible {
+
     position: fixed;
     width: 60px;
     padding: 0;
-}
 
+}
 
 
 
@@ -59,7 +62,7 @@
 
 .collapsible .sidebar-toggle {
     margin-top: -50px;
-    margin-left: 12px;
+
 }
 
 
@@ -128,8 +131,9 @@
 
 /*---------------------------------------- user actions yo yo here ----------------------------------------*/
 
+
 .user-logout-darkmode-actions{
-    padding-bottom: 30px;
+    padding-bottom: 40px;
     cursor: pointer;
 
 }
@@ -178,7 +182,9 @@ body.dark {
     color: white;
 }
 
-
+.dark .dashboard-content .dashboard-title .dashboard-name {
+    color: white;
+}
 
 
 

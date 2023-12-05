@@ -1,0 +1,52 @@
+/* Additional styles for busListContainer */
+.busListContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.busCard {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.busCard:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.busCardContent {
+    padding: 20px;
+}
+
+.busCardName {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.busJourneyDate {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.busAdditionalInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.infoLabel {
+    font-size: 14px;
+    color: #333;
+}
+
+.infoValue {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}

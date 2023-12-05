@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/himalayanbus/reservation';
+const BASE_URL = 'http://localhost:8080/himalayanbus/route';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -9,10 +9,9 @@ const axiosInstance = axios.create({
     },
 });
 
-
-export const addReservation = async (reservationData, authToken) => {
+export const addRoute = async (newRoute, authToken) => {
     try {
-        const response = await axiosInstance.post('/add', reservationData, {
+        const response = await axiosInstance.post('/add', newRoute, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -20,15 +19,14 @@ export const addReservation = async (reservationData, authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error adding reservation:', error);
+        console.error('Error adding route:', error);
         throw error;
     }
 };
 
-
-export const updateReservation = async (reservationData, authToken) => {
+export const updateRoute = async (routeId, updatedRoute, authToken) => {
     try {
-        const response = await axiosInstance.put('/update', reservationData, {
+        const response = await axiosInstance.put(`/update/${routeId}`, updatedRoute, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -36,15 +34,14 @@ export const updateReservation = async (reservationData, authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error updating reservation:', error);
+        console.error('Error updating route:', error);
         throw error;
     }
 };
 
-
-export const viewReservation = async (reservationId, authToken) => {
+export const getRoute = async (routeId, authToken) => {
     try {
-        const response = await axiosInstance.get(`/viewReservation/${reservationId}`, {
+        const response = await axiosInstance.get(`/view/${routeId}`, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -52,15 +49,14 @@ export const viewReservation = async (reservationId, authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error viewing reservation:', error);
+        console.error('Error fetching route:', error);
         throw error;
     }
 };
 
-
-export const getAllReservations = async (authToken) => {
+export const getAllRoutes = async (authToken) => {
     try {
-        const response = await axiosInstance.get('/all', {
+        const response = await axiosInstance.get('/viewAll', {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -68,15 +64,14 @@ export const getAllReservations = async (authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching reservations:', error);
+        console.error('Error fetching all routes:', error);
         throw error;
     }
 };
 
-
-export const viewReservationsForCurrentUser = async (authToken) => {
+export const deleteRoute = async (routeId, authToken) => {
     try {
-        const response = await axiosInstance.get('/current-user', {
+        const response = await axiosInstance.delete(`/delete/${routeId}`, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -84,15 +79,15 @@ export const viewReservationsForCurrentUser = async (authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching reservations for current user:', error);
+        console.error('Error deleting route:', error);
         throw error;
     }
 };
 
 
-export const deleteReservation = async (reservationId, authToken) => {
+export const countAllRoute = async (authToken) => {
     try {
-        const response = await axiosInstance.delete(`/delete/${reservationId}`, {
+        const response = await axiosInstance.get('/count', {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -100,9 +95,8 @@ export const deleteReservation = async (reservationId, authToken) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error deleting reservation:', error);
+        console.error('Error fetching all passengers:', error);
         throw error;
     }
 };
 
-export default axiosInstance;

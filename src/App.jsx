@@ -5,12 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import log from 'loglevel';
 import LoginSignup from "./components/Authentication/LoginSignup.jsx";
 import {ToastContainer} from "react-toastify";
-
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
-
-import Reservation from "./components/Passenger/Reservation.jsx";
 import AdminPassenger from "./components/Admin/AdminPassenger.jsx";
 import SideNavbar from "./components/common/NavBar.jsx";
+import AdminRoute from "./components/Admin/AdminRoute.jsx";
+import ReservationDashboard from "./components/Passenger/ReservationDashboard.jsx";
+import MyReservation from "./components/Passenger/MyReservation.jsx";
 
 
 log.setLevel(log.levels.DEBUG);
@@ -18,7 +18,7 @@ log.setLevel(log.levels.DEBUG);
 
 function App() {
 
-    const userRole = localStorage.getItem('userRole');
+    const userRoles = localStorage.getItem('userRoles');
 
     const [isCollapsible, setIsCollapsible] = useState(false);
 
@@ -54,15 +54,18 @@ function App() {
 
         <Router>
             <div className="App">
-                {userRole ? (
+                {userRoles ? (
                 <SideNavbar isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />
                 ) : null}
 
                 <Routes>
                     <Route path="/" element={<LoginSignup onLogin={() => {}} />} />
-                    <Route path="/passenger-reservation" element={<Reservation isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+                    <Route path="/passenger-reservation" element={<ReservationDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+                    <Route path="/my-reservation" element={<MyReservation isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
                     <Route path="/admin-dashboard" element={<AdminDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
                     <Route path="/admin-passenger" element={<AdminPassenger isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+                    <Route path="/admin-route" element={<AdminRoute isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+
                 </Routes>
             </div>
             <ToastContainer />
