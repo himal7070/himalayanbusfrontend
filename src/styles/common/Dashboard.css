@@ -2,48 +2,41 @@
 
 .body-area {
     position: relative;
-    margin: 3rem 0 0 0;
-    padding: 0 1rem;
+    margin: 2rem 0 0 0;
     font-family: 'Nunito', sans-serif;
     font-size: 1rem;
     transition: .5s;
 }
 
 
+/*.dashboard-section {*/
 
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: calc(100% - 20px);*/
+/*    height: 100vh;*/
+/*    z-index: 1;*/
+/*    transition: left 0.3s ease, width 0.3s ease;*/
 
-
-
-
-.dashboard-section {
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    /*width: calc(100% - 20px);*/
-    width: 100%;
-    height: 100vh;
-    z-index: 1;
-    transition: left 0.3s ease, width 0.3s ease;
-    overflow-x: hidden;
-
-
-}
+/*}*/
 
 
 .dashboard-content {
     position: fixed;
-    left: 5px;
-
-    width: 100%;
-
-    /*width: calc(100% - 150px);*/
+    left: 130px;
+    /*width: 100%;*/
+    width: calc(100% - 130px);
     height: 100vh;
     transition: left 0.3s ease, width 0.3s ease;
-
     overflow-x: hidden;
-    margin-top: 155px;
+    margin-top: 4rem ;
+    margin-bottom: 100px;
+
 }
+
+
+
 
 
 /*------------need to think about collapse and overlapping dashboard content on side bar ....dark coder*/
@@ -63,12 +56,45 @@
 
 /*}*/
 
+@media screen and (max-width: 768px) {
+
+    /*purae collapsed bhae sakepachi ko */
+    .dashboard-content {
+        left: -5px;
+        width: calc(101% - 0px);
+
+        transition: left 0.3s ease, width 0.3s ease, padding-left 0.3s ease;
+    }
+
+    /*sano banauda setting haru*/
+    .dashboard-content.body-area {
+        left: 70px;
+        width: calc(100% - 80px);
+        padding-left: 20px;
+        height: 100vh;
+        overflow-x: hidden;
+        transition: left 0.3s ease, width 0.3s ease, padding-left 0.3s ease;
+    }
+
+
+}
+
+
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .dashboard-content.body-area{*/
+/*        left: 0;*/
+/*        width: calc(100% - 15px);*/
+/*        padding-left: 20px;*/
+/*        transition: left 0.3s ease, width 0.3s ease, padding-left 0.3s ease;*/
+/*    }*/
+/*}*/
+
+
 
 /*.dashboard-content.body-area {*/
 
-
-
-/*    margin-top: 15px;*/
 /*    position: fixed;*/
 /*    left: 230px;*/
 /*    width: calc(100% - 240px);*/
@@ -79,6 +105,8 @@
 /*    transition: left 0.3s ease, width 0.3s ease;*/
 
 /*}*/
+
+
 
 
 

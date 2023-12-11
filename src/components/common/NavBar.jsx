@@ -45,8 +45,9 @@ function SideNavbar({ showNav, setShowNav }) {
 
 
     return (
-        <div className={`body-area${showNav ? ' body-padding' : ''}`}>
-            <header className={`navHeader${showNav ? ' body-padding' : ''}`}>
+
+        <div className={`body-area ${showNav ? ' body-padding' : ''}`}>
+            <header className={`navHeader ${showNav ? ' body-padding' : ''}`}>
                 <div className="toggleBarHeader">
                     <i
                         className={`bi ${showNav ? 'bi-x' : 'bi-list'}`}
@@ -63,9 +64,9 @@ function SideNavbar({ showNav, setShowNav }) {
                     </div>
                 </Link>
             </header>
-            <div className={`sideNavBar ${showNav ? ' show' : ''}`}>
+            <div className={`sideNavBar ${showNav ? 'show' : ''}`}>
                 <nav className="nav">
-                    <ul className={`menu-items${showNav ? '' : ' collapsed'}`}>
+                    <ul className={`menu-items${showNav ? '' : 'collapsed'}`}>
                         {userRoles === 'ADMIN' && (
                             <>
                                 <li>

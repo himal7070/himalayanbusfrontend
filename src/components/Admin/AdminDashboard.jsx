@@ -92,6 +92,7 @@ function AdminDashboard({ showNav }) {
             }
         };
 
+
         fetchData().catch((error) => {
             console.error('Unhandled error in fetchData:', error);
         });

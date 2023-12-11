@@ -6,6 +6,7 @@ import {getAllReservations} from "../../services/ReservationService.jsx";
 
 // eslint-disable-next-line react/prop-types
 function AdminReservation({ showNav }) {
+
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,11 +58,11 @@ function AdminReservation({ showNav }) {
                 <tbody>
                 {loading ? (
                     <tr>
-                      <td colSpan="5">Loading...</td>
+                      <td colSpan="7">Loading...</td>
                     </tr>
                 ) : reservations.length === 0 ? (
                     <tr>
-                      <td colSpan="5">No Reservation found</td>
+                      <td colSpan="7">No Reservation found</td>
                     </tr>
                 ) : (
                     reservations.map(reservation => (
