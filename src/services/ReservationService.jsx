@@ -27,9 +27,9 @@ export const countTodayReservations = async (authToken) => {
 
 
 
-export const addReservation = async (reservationData, authToken) => {
+export const addReservation = async (reservationData, busId, authToken) => {
     try {
-        const response = await axiosInstance.post('/add', reservationData, {
+        const response = await axiosInstance.post(`/add?busId=${busId}`, reservationData, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -41,6 +41,7 @@ export const addReservation = async (reservationData, authToken) => {
         throw error;
     }
 };
+
 
 
 export const updateReservation = async (reservationData, authToken) => {
@@ -99,12 +100,21 @@ export const viewReservationsForCurrentUser = async (authToken) => {
                 Authorization: `Bearer ${authToken}`,
             },
         });
-        return response.data;
+
+        return response.data.map((reservation) => {
+            const {departureTime, arrivalTime} = reservation.bus;
+            return {
+                ...reservation,
+                departureTime,
+                arrivalTime,
+            };
+        });
     } catch (error) {
         console.error('Error fetching reservations for current user:', error);
         throw error;
     }
 };
+
 
 
 export const deleteReservation = async (reservationId, authToken) => {

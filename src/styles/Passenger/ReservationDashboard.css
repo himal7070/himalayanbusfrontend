@@ -99,3 +99,74 @@
     color: red;
     margin-top: 5px;
 }
+
+
+
+/*---------------aryal ---------------------------dialog-box--------------------------*/
+
+
+.MuiDialog-paper {
+    width: 400px;
+    border-radius: 8px;
+    background: linear-gradient(to right bottom, #ffffff, #f3f3f3);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.MuiDialogTitle-root {
+    padding: 16px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: White;
+    background-color: blue;
+    border-bottom: 1px solid #dddddd;
+    border-radius: 8px 8px 0 0;
+}
+
+
+.MuiDialogContent-root {
+    padding: 16px;
+}
+
+
+.MuiTypography-body1 {
+    margin-bottom: 8px;
+    color: Black;
+}
+
+
+.MuiTextField-root {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+
+.MuiDialogActions-root {
+    padding: 8px 16px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #dddddd;
+    border-radius: 0 0 8px 8px;
+}
+
+
+.MuiButton-root {
+    margin-left: 8px;
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.MuiButton-root:hover {
+    background-color: #0056b3 !important;
+}
+
+
+.MuiInputLabel-root {
+    color: black !important;
+}

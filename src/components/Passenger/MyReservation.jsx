@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {viewReservationsForCurrentUser} from "../../services/ReservationService.jsx";
+import {deleteReservation, viewReservationsForCurrentUser} from "../../services/ReservationService.jsx";
 import '/src/styles/common/Dashboard.css'
 
 import '/src/styles/Passenger/MyReservation.css'
+import Typography from "@mui/material/Typography";
+import {Button} from "@mui/material";
+import Box from "@mui/material/Box";
+import {toast} from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
-function Reservation({ isCollapsible, toggleSidebar }) {
-
-
-
+function MyReservation({ showNav }) {
 
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,12 +19,38 @@ function Reservation({ isCollapsible, toggleSidebar }) {
     };
 
 
+    const handleCancelReservation = async (reservationId) => {
+        try {
+            const authToken = getAccessToken();
+            await deleteReservation(reservationId, authToken);
+
+            const updatedReservations = reservations.map((reservation) => {
+                if (reservation.reservationID === reservationId) {
+                    return {
+                        ...reservation,
+                        status: 'Cancelled',
+                    };
+                }
+                return reservation;
+            });
+
+            setReservations(updatedReservations);
+
+            toast.success('Reservation has been cancelled successfully!', {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        } catch (error) {
+            console.error('Error cancelling reservation:', error);
+        }
+    };
+
+
+
     useEffect(() => {
         (async () => {
             try {
                 const accessToken = getAccessToken();
                 const userReservations = await viewReservationsForCurrentUser(accessToken);
-                console.log('User Reservations:', userReservations);
                 setReservations(userReservations);
                 setLoading(false);
             } catch (error) {
@@ -38,10 +65,15 @@ function Reservation({ isCollapsible, toggleSidebar }) {
     }
 
 
+
+    const activeReservations = reservations.filter(reservation => reservation.status === 'Active');
+    const cancelledReservations = reservations.filter(reservation => reservation.status === 'Cancelled');
+    const expiredReservations = reservations.filter(reservation => reservation.status === 'Expired');
+
     return (
-        <section className={`dashboard-section ${isCollapsible ? 'collapsible' : ''}`}>
-            <div className={`dashboard-content ${isCollapsible ? 'collapsible' : ''}`}>
-                <i className="bi-list sidebar-toggle" onClick={toggleSidebar}></i>
+
+        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-calendar-check-fill"></i>
@@ -49,29 +81,117 @@ function Reservation({ isCollapsible, toggleSidebar }) {
                     </div>
 
                     <div className="reservation-dashboard">
-                        <p>Hello, Its me himal aryal don</p>
-                        <p>Profession: Pro React Developer lol :D brouhaha</p>
-                        <div>
-                            <h2>Reservations for Current User</h2>
-                            {reservations.length === 0 ? (
-                                <p>No reservations found for the current user</p>
-                            ) : (
+                        {activeReservations.length > 0 && (
+                            <div>
+                                <h2>Active Reservations</h2>
                                 <ul>
-                                    {reservations.map((reservation) => (
-                                        <li key={reservation.id}>
-                                            <p>Departure Location: {reservation.departureLocation}</p>
-                                            <p>Destination: {reservation.destination}</p>
-                                            <p>Journey Date: {reservation.journeyDate}</p>
-                                            <p>Booked Seat: {reservation.bookedSeat}</p>
+                                    {activeReservations.map((reservation) => (
+                                        <li key={reservation.reservationID}>
+                                            <Box
+                                                sx={{
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: '8px',
+                                                    padding: '16px',
+                                                }}
+                                            >
+                                                <Typography variant="h5">Departure
+                                                    Location: {reservation.departureLocation}</Typography>
+                                                <Typography
+                                                    variant="body1">Destination: {reservation.destination}</Typography>
+                                                <Typography variant="body1">Journey
+                                                    Date: {reservation.journeyDate}</Typography>
+                                                <Typography variant="body1">Booked
+                                                    Seat: {reservation.bookedSeat}</Typography>
+                                                <Typography variant="body1">Departure
+                                                    Time: {reservation.departureTime}</Typography>
+                                                <Typography variant="body1">Arrival
+                                                    Time: {reservation.arrivalTime}</Typography>
+                                                <Typography variant="body1">Status: {reservation.status}</Typography>
+                                                <Button variant="contained" color="error"
+                                                        onClick={() => handleCancelReservation(reservation.reservationID)}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </Box>
                                         </li>
                                     ))}
                                 </ul>
-                            )}
-                        </div>
+                            </div>
+                        )}
+
+                        {cancelledReservations.length > 0 && (
+                            <div>
+                                <h2>Cancelled Reservations</h2>
+                                <ul>
+                                    {cancelledReservations.map((reservation) => (
+                                        <li key={reservation.reservationID}>
+                                            <Box
+                                                sx={{
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: '8px',
+                                                    padding: '16px',
+                                                    opacity: 0.7,
+                                                }}
+                                            >
+                                                <Typography variant="h5">Departure
+                                                    Location: {reservation.departureLocation}</Typography>
+                                                <Typography
+                                                    variant="body1">Destination: {reservation.destination}</Typography>
+                                                <Typography variant="body1">Journey
+                                                    Date: {reservation.journeyDate}</Typography>
+                                                <Typography variant="body1">Booked
+                                                    Seat: {reservation.bookedSeat}</Typography>
+                                                <Typography variant="body1">Departure
+                                                    Time: {reservation.departureTime}</Typography>
+                                                <Typography variant="body1">Arrival
+                                                    Time: {reservation.arrivalTime}</Typography>
+                                                <Typography variant="body1">Status: {reservation.status}</Typography>
+
+                                            </Box>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {expiredReservations.length > 0 && (
+                            <div>
+                                <h2>Expired Reservations</h2>
+                                <ul>
+                                    {expiredReservations.map((reservation) => (
+                                        <li key={reservation.reservationID}>
+                                            <Box
+                                                sx={{
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: '8px',
+                                                    padding: '16px',
+                                                    opacity: 0.7,
+                                                }}
+                                            >
+                                                <Typography variant="h5">Departure
+                                                    Location: {reservation.departureLocation}</Typography>
+                                                <Typography
+                                                    variant="body1">Destination: {reservation.destination}</Typography>
+                                                <Typography variant="body1">Journey
+                                                    Date: {reservation.journeyDate}</Typography>
+                                                <Typography variant="body1">Booked
+                                                    Seat: {reservation.bookedSeat}</Typography>
+                                                <Typography variant="body1">Departure
+                                                    Time: {reservation.departureTime}</Typography>
+                                                <Typography variant="body1">Arrival
+                                                    Time: {reservation.arrivalTime}</Typography>
+                                                <Typography variant="body1">Status: {reservation.status}</Typography>
+                                            </Box>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </section>
     );
 }
-export default Reservation;
+
+export default MyReservation;

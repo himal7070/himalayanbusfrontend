@@ -81,7 +81,7 @@ section {
     overflow: hidden;
     max-width: 390px;
     background: #fff;
-    padding: 30px;
+    padding: 15px;
     border-radius: 30px;
 }
 
@@ -134,7 +134,7 @@ section {
     left: 0;
     z-index: 0;
     border-radius: 15px;
-    background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
+    background: linear-gradient(to right, #003366, #004080, #0059b3);
     transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -235,18 +235,16 @@ input[type="radio"] {
     height: 100%;
     width: 200%;
     position: absolute;
-    left: -100%;
-    background: -webkit-linear-gradient(
-            right,
+    background: linear-gradient(
+            to right,
             #003366,
             #004080,
             #0059b3,
             #0073e6
     );
     border-radius: 15px;
-
-
 }
+
 
 .Btn input[type="submit"] {
 
@@ -266,3 +264,8 @@ input[type="radio"] {
 
 }
 
+@media (max-width: 768px) {
+    .LoginImg > img {
+        display: none;
+    }
+}

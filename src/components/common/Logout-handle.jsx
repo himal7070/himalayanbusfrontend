@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+
 const Logout = () => {
     const handleLogout = () => {
         localStorage.removeItem('accessToken');

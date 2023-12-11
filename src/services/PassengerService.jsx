@@ -27,9 +27,9 @@ export const addPassenger = async (user) => {
 };
 
 
-export const updatePassenger = async (passengerId, passengerData, authToken) => {
+export const updatePassengerDetails = async (passengerID, updatedPassenger, authToken) => {
     try {
-        const response = await axiosInstance.put(`/update/${passengerId}`, passengerData, {
+        const response = await axiosInstance.put(`/updateDetails/${passengerID}`, updatedPassenger, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
@@ -37,10 +37,27 @@ export const updatePassenger = async (passengerId, passengerData, authToken) => 
         });
         return response.data;
     } catch (error) {
-        console.error('Error updating passenger:', error);
+        console.error('Error updating passenger details:', error);
         throw error;
     }
 };
+
+export const updatePasswordForPassenger = async (passengerID, newPassword, authToken) => {
+    try {
+        const response = await axiosInstance.put(`/updatePassword/${passengerID}`, `"${newPassword}"`, {
+            headers: {
+                ...axiosInstance.defaults.headers,
+                Authorization: `Bearer ${authToken}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating password for passenger:', error);
+        throw error;
+    }
+};
+
+
 
 export const getPassenger = async (passengerId, authToken) => {
     try {
@@ -107,6 +124,21 @@ export const countAllPassengers = async (authToken) => {
     }
 };
 
+
+export const getUserInformationByEmail = async (userEmail, authToken) => {
+    try {
+        const response = await axiosInstance.get(`/user/${userEmail}`, {
+            headers: {
+                ...axiosInstance.defaults.headers,
+                Authorization: `Bearer ${authToken}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+        throw error;
+    }
+};
 
 
 

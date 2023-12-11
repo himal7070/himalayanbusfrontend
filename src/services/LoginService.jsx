@@ -1,4 +1,3 @@
-// authAPI.js
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/himalayanbus';
@@ -11,15 +10,10 @@ const login = async (email, password) => {
             password,
         });
 
-        const { accessToken, userRoles } = response.data;
-
-        return { accessToken, userRoles };
+        return response.data;
     } catch (error) {
         throw error;
     }
 };
 
 export { login };
-
-
-

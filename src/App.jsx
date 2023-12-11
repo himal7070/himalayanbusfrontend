@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './App.css'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,10 @@ import SideNavbar from "./components/common/NavBar.jsx";
 import AdminRoute from "./components/Admin/AdminRoute.jsx";
 import ReservationDashboard from "./components/Passenger/ReservationDashboard.jsx";
 import MyReservation from "./components/Passenger/MyReservation.jsx";
+import AdminBus from "./components/Admin/AdminBus.jsx";
+import AdminReservation from "./components/Admin/AdminReservation.jsx";
+import ProfileSettings from "./components/Passenger/ProfileSettings.jsx";
+import ProfileCard from "./components/Passenger/ProfileCard.jsx";
 
 
 log.setLevel(log.levels.DEBUG);
@@ -20,51 +24,31 @@ function App() {
 
     const userRoles = localStorage.getItem('userRoles');
 
-    const [isCollapsible, setIsCollapsible] = useState(false);
 
-
-    const toggleSidebar = () => {
-        setIsCollapsible(!isCollapsible);
-    };
-
-    const checkScreenWidth = () => {
-        const breakpoint = 768;
-
-        if (window.innerWidth <= breakpoint) {
-            setIsCollapsible(true);
-        } else {
-            setIsCollapsible(false);
-        }
-
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', checkScreenWidth);
-        return () => {
-            window.removeEventListener('resize', checkScreenWidth);
-        };
-    }, []);
-
-    useEffect(() => {
-        checkScreenWidth();
-    }, []);
-
-
+    const [showNav, setShowNav] = useState(true);
     return (
 
         <Router>
             <div className="App">
                 {userRoles ? (
-                <SideNavbar isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />
-                ) : null}
+                    <SideNavbar showNav={showNav} setShowNav={setShowNav} />
 
+                ) : null}
                 <Routes>
-                    <Route path="/" element={<LoginSignup onLogin={() => {}} />} />
-                    <Route path="/passenger-reservation" element={<ReservationDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
-                    <Route path="/my-reservation" element={<MyReservation isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
-                    <Route path="/admin-dashboard" element={<AdminDashboard isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
-                    <Route path="/admin-passenger" element={<AdminPassenger isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
-                    <Route path="/admin-route" element={<AdminRoute isCollapsible={isCollapsible} toggleSidebar={toggleSidebar} />} />
+
+                    {/*<Route path={"/"} element={<LandingPage/>}></Route>*/}
+                    <Route path={"/"} element={<LoginSignup/>}></Route>
+                    <Route path="/passenger-reservation" element={<ReservationDashboard showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/my-reservation" element={<MyReservation showNav={showNav} setShowNav={setShowNav}/>} />
+
+                    <Route path="/profile-settings" element={<ProfileSettings  showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/profile-card" element={<ProfileCard  showNav={showNav} setShowNav={setShowNav} />} />
+
+                    <Route path="/admin-dashboard" element={<AdminDashboard showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/admin-passenger" element={<AdminPassenger showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/admin-route" element={<AdminRoute showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/admin-bus" element={<AdminBus showNav={showNav} setShowNav={setShowNav} />} />
+                    <Route path="/admin-reservation" element={<AdminReservation showNav={showNav} setShowNav={setShowNav} />} />
 
                 </Routes>
             </div>

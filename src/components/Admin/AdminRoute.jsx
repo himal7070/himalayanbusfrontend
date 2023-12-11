@@ -5,7 +5,7 @@ import {getAllRoutes} from "../../services/RouteService.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-function Route({ isCollapsible, toggleSidebar }) {
+function Route({ showNav }) {
 
 
     const [routes, setRoutes] = useState([]);
@@ -36,9 +36,8 @@ function Route({ isCollapsible, toggleSidebar }) {
 
 
     return (
-        <section className={`dashboard-section ${isCollapsible ? 'collapsible' : ''}`}>
-            <div className={`dashboard-content ${isCollapsible ? 'collapsible' : ''}`}>
-                <i className="bi-list sidebar-toggle" onClick={toggleSidebar}></i>
+        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-person-fill"></i>
@@ -73,4 +72,5 @@ function Route({ isCollapsible, toggleSidebar }) {
         </section>
     );
 }
+
 export default Route;

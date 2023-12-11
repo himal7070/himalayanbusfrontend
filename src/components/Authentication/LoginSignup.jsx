@@ -6,6 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import {login} from "../../services/LoginService.jsx";
 import {addPassenger} from "../../services/PassengerService.jsx";
 import GoogleLoginButton from "./GoogleLogin .jsx";
+import {decodeJwtToken} from "./TokenDecoder.jsx";
+import Logout from "../common/Logout-handle.jsx";
+import {Link} from "react-router-dom";
 
 
 // eslint-disable-next-line react/prop-types
@@ -14,18 +17,13 @@ function LoginSignup() {
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
 
-    const [, setLoginEmail] = useState('');
-    const [, setLoginPassword] = useState('');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
 
 
     const handleGoogleLogin = (response) => {
         console.log('Google Login Response:', response);
     };
-
-
-
-
-
 
 
 
@@ -35,33 +33,51 @@ function LoginSignup() {
         const password = e.target.elements.password.value;
 
         try {
-            const { accessToken, userRoles } = await login(email, password);
+            const response = await login(email, password);
 
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('userRoles', userRoles);
+            if (response && response.accessToken) {
+                const accessToken = response.accessToken;
 
-            if (userRoles.includes('USER')) {
-                window.location.href = '/passenger-reservation';
-            } else if (userRoles.includes('ADMIN')) {
-                window.location.href = '/admin-dashboard';
+                localStorage.setItem('accessToken', accessToken);
+
+                const decodedToken = decodeJwtToken(accessToken);
+
+                const userRoles = decodedToken.roles;
+
+                localStorage.setItem('userRoles', userRoles);
+
+                const tokenExpiry = decodedToken.exp * 1000;
+                const expiresInMilliseconds = tokenExpiry - Date.now();
+
+                if (expiresInMilliseconds <= 0) {
+                    Logout();
+                } else {
+
+                    setTimeout(() => {
+                        Logout();
+                    }, expiresInMilliseconds);
+                }
+
+                if (userRoles.includes('USER')) {
+                    window.location.href = '/passenger-reservation';
+                } else if (userRoles.includes('ADMIN')) {
+                    window.location.href = '/admin-dashboard';
+                }
+
+                toast.success('Login successful!', {
+                    position: 'top-right',
+                });
+            } else {
+                toast.error('Invalid credentials. Please try again.', {
+                    position: 'top-right',
+                });
             }
-
-            toast.success('Login successful!', {
-                position: 'top-right',
-            });
-
         } catch (error) {
-            toast.error('Login failed. Please try again.', {
+            toast.error('Incorrect email or password. Please try again.', {
                 position: 'top-right',
             });
         }
     };
-
-
-
-
-
-
 
 
 
@@ -140,20 +156,26 @@ function LoginSignup() {
             <section>
                 <div className="Main">
                     <div className="LoginImg">
-                        <img src="/FlyerHimalyanBus.jpg" alt="" />
+                        <img src="/FlyerHimalyanBus.jpg" alt=""/>
                     </div>
                     <div>
                         <div className="Wrapper">
                             <div className="TitleText">
-                                <div className={`Title ${activeTab === 'login' ? 'Login' : 'Signup'}`}>{activeTab === 'login' ? 'Login Form' : 'Signup Form'}</div>
-                                <div className={`Title ${activeTab === 'signup' ? 'Login' : 'Signup'}`}>{activeTab === 'signup' ? 'Login Form' : 'Signup Form'}</div>
+                                <div
+                                    className={`Title ${activeTab === 'login' ? 'Login' : 'Signup'}`}>{activeTab === 'login' ? 'Login Form' : 'Signup Form'}</div>
+                                <div
+                                    className={`Title ${activeTab === 'signup' ? 'Login' : 'Signup'}`}>{activeTab === 'signup' ? 'Login Form' : 'Signup Form'}</div>
                             </div>
                             <div className="FormContainer">
                                 <div className="SlideControls">
-                                    <input type="radio" name="Slide" id="Login" checked={activeTab === 'login'} onChange={() => handleTabChange('login')} />
-                                    <input type="radio" name="Slide" id="Signup" checked={activeTab === 'signup'} onChange={() => handleTabChange('signup')} />
-                                    <label htmlFor="Login" className={`Slide ${activeTab === 'login' ? 'Login' : 'Signup'}`}>Login</label>
-                                    <label htmlFor="Signup" className={`Slide ${activeTab === 'signup' ? 'Login' : 'Signup'}`}>Signup</label>
+                                    <input type="radio" name="Slide" id="Login" checked={activeTab === 'login'}
+                                           onChange={() => handleTabChange('login')}/>
+                                    <input type="radio" name="Slide" id="Signup" checked={activeTab === 'signup'}
+                                           onChange={() => handleTabChange('signup')}/>
+                                    <label htmlFor="Login"
+                                           className={`Slide ${activeTab === 'login' ? 'Login' : 'Signup'}`}>Login</label>
+                                    <label htmlFor="Signup"
+                                           className={`Slide ${activeTab === 'signup' ? 'Login' : 'Signup'}`}>Signup</label>
                                     <div className="SliderTab"></div>
                                 </div>
                                 <div className="FormInner">
@@ -164,8 +186,9 @@ function LoginSignup() {
                                                     type="text"
                                                     placeholder="Email Address"
                                                     required
-                                                    name = "email"
+                                                    name="email"
                                                     autoComplete="email"
+                                                    value={loginEmail}
                                                     onChange={(e) => setLoginEmail(e.target.value)}
                                                 />
                                             </div>
@@ -178,6 +201,7 @@ function LoginSignup() {
                                                         className="PasswordInput InputClass"
                                                         name="password"
                                                         autoComplete="current-password"
+                                                        value={loginPassword}
                                                         onChange={(e) => setLoginPassword(e.target.value)}
                                                     />
                                                     <button
@@ -185,7 +209,7 @@ function LoginSignup() {
                                                         onClick={toggleShowPassword}
                                                         className="PasswordToggleButton"
                                                     >
-                                                        {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                                        {showPassword ? <FaEye/> : <FaEyeSlash/>}
                                                     </button>
                                                 </div>
                                             </div>
@@ -196,7 +220,7 @@ function LoginSignup() {
 
                                             <div className="Field Btn">
                                                 <div className="BtnLayer"></div>
-                                                <input type="submit" value="Login" />
+                                                <input type="submit" value="Login"/>
                                             </div>
 
                                             <div className="TextLink">
@@ -204,7 +228,7 @@ function LoginSignup() {
                                             </div>
 
                                             <br/>
-                                            <GoogleLoginButton handleGoogleLogin={handleGoogleLogin} />
+                                            <GoogleLoginButton handleGoogleLogin={handleGoogleLogin}/>
                                         </form>
                                     ) : (
                                         <form onSubmit={handleSignup} className="SignupForm">
@@ -214,7 +238,7 @@ function LoginSignup() {
                                                     type="text"
                                                     placeholder="First Name"
                                                     required
-                                                    name = "firstName"
+                                                    name="firstName"
                                                     value={formData.firstName}
                                                     onChange={(e) => handleFormChange(e, 'firstName')}
                                                 />
@@ -224,7 +248,7 @@ function LoginSignup() {
                                                     type="text"
                                                     placeholder="Last Name"
                                                     required
-                                                    name = "lastName"
+                                                    name="lastName"
                                                     value={formData.lastName}
                                                     onChange={(e) => handleFormChange(e, 'lastName')}
                                                 />
@@ -258,7 +282,7 @@ function LoginSignup() {
                                                         placeholder="Password"
                                                         required
                                                         className="PasswordInput InputClass"
-                                                        name= "password"
+                                                        name="password"
                                                         autoComplete="current-password"
                                                         value={formData.password}
                                                         onChange={(e) => handleFormChange(e, 'password')}
@@ -268,13 +292,13 @@ function LoginSignup() {
                                                         onClick={toggleShowPassword}
                                                         className="PasswordToggleButton"
                                                     >
-                                                        {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                                        {showPassword ? <FaEye/> : <FaEyeSlash/>}
                                                     </button>
                                                 </div>
                                             </div>
                                             <div className="Field Btn">
                                                 <div className="BtnLayer"></div>
-                                                <input type="submit" value="Signup" />
+                                                <input type="submit" value="Signup"/>
                                             </div>
                                             <br/>
 

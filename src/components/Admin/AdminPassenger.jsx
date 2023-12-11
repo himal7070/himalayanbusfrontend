@@ -5,7 +5,7 @@ import {getAllPassengers} from "../../services/PassengerService.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-function Passenger({ isCollapsible, toggleSidebar }) {
+function Passenger({ showNav }) {
     const [passengers, setPassengers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -33,10 +33,10 @@ function Passenger({ isCollapsible, toggleSidebar }) {
     }, []);
 
 
+
     return (
-        <section className={`dashboard-section ${isCollapsible ? 'collapsible' : ''}`}>
-            <div className={`dashboard-content ${isCollapsible ? 'collapsible' : ''}`}>
-                <i className="bi-list sidebar-toggle" onClick={toggleSidebar}></i>
+        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-person-fill"></i>
@@ -83,4 +83,5 @@ function Passenger({ isCollapsible, toggleSidebar }) {
         </section>
     );
 }
+
 export default Passenger;
