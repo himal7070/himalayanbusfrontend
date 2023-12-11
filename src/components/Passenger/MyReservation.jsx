@@ -72,13 +72,13 @@ function MyReservation({ showNav }) {
 
     return (
 
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
-                <div className="dashboard-overview">
-                    <div className="dashboard-title">
-                        <i className="bi-calendar-check-fill"></i>
-                        <span className="dashboard-name">My Reservation</span>
-                    </div>
+        <section className={`dashboard-section ${showNav ? 'pt-4 pb-4' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'pt-4 pb-4' : ''}`}>
+                {/*<div className="dashboard-overview">*/}
+                {/*    <div className="dashboard-title">*/}
+                {/*        <i className="bi-calendar-check-fill"></i>*/}
+                {/*        <span className="dashboard-name">My Reservation</span>*/}
+                {/*    </div>*/}
 
                     <div className="reservation-dashboard">
                         {activeReservations.length > 0 && (
@@ -188,7 +188,7 @@ function MyReservation({ showNav }) {
                             </div>
                         )}
                     </div>
-                </div>
+                {/*</div>*/}
             </div>
         </section>
     );

@@ -70,7 +70,7 @@ function ReservationDashboard({ showNav}) {
 
     const handleConfirmReservation = async (numberOfSeatsToBook) => {
         if (selectedBus && numberOfSeatsToBook) {
-            const { busName, journeyDate, routeFrom, routeTo, busId } = selectedBus;
+            const {journeyDate, routeFrom, routeTo, busId } = selectedBus;
 
             const reservationData = {
                 journeyDate: journeyDate,
@@ -131,13 +131,13 @@ function ReservationDashboard({ showNav}) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
-                <div className="dashboard-overview">
-                    <div className="dashboard-title">
-                        <i className="bi-speedometer2"></i>
-                        <span className="dashboard-name">Dashboard</span>
-                    </div>
+        <section className={`dashboard-section ${showNav ? 'pt-4 pb-4' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'pt-4 pb-4' : ''}`}>
+                {/*<div className="dashboard-overview">*/}
+                {/*    <div className="dashboard-title">*/}
+                {/*        <i className="bi-speedometer2"></i>*/}
+                {/*        <span className="dashboard-name">Dashboard</span>*/}
+                {/*    </div>*/}
 
                     <div className="busSearchContainer">
                         <h2>Search Buses</h2>
@@ -265,7 +265,7 @@ function ReservationDashboard({ showNav}) {
 
                     </div>
 
-                </div>
+                {/*</div>*/}
             </div>
         </section>
     );

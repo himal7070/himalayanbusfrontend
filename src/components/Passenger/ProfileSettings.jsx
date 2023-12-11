@@ -2,22 +2,64 @@ import React, {useEffect, useState} from 'react';
 import '/src/styles/common/Dashboard.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '/src/styles/Passenger/MyProfile.css';
-import {getUserInformationByEmail, updatePassengerDetails} from "../../services/PassengerService.jsx";
+import {updatePassengerDetails} from "../../services/PassengerService.jsx";
 import {decodeJwtToken} from "../Authentication/TokenDecoder.jsx";
 import {toast} from "react-toastify";
+import {getUserInformationByEmail, updatePasswordForUser} from "../../services/UserService.jsx";
+
 // eslint-disable-next-line react/prop-types
 function ProfileSettings({showNav}) {
 
 
     const userRoles = localStorage.getItem('userRoles');
 
+    const [imageUrl, setImageUrl] = useState("");
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
+
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const getAccessToken = () => {
         return localStorage.getItem('accessToken');
     };
+
+    const handlePasswordUpdate = async () => {
+        try {
+            const authToken = getAccessToken();
+            if (authToken) {
+                const updatedUser = await updatePasswordForUser(userEmail, oldPassword, newPassword, authToken);
+                console.log('Updated password:', updatedUser);
+                toast.success('Password updated successfully!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 3000,
+                });
+                setOldPassword('');
+                setNewPassword('');
+            }
+        } catch (error) {
+            console.error('Error updating password:', error);
+
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 3000,
+                });
+            } else {
+                toast.error('Failed to update password. Please try again later.', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 3000,
+                });
+            }
+        }
+    };
+
+
+
+
 
 
     useEffect(() => {
@@ -25,6 +67,7 @@ function ProfileSettings({showNav}) {
         if (authToken) {
             const decodedToken = decodeJwtToken(authToken);
             const userEmail = decodedToken.sub;
+            setUserEmail(userEmail);
 
             getUserInformationByEmail(userEmail, authToken)
                 .then(userData => {
@@ -32,6 +75,10 @@ function ProfileSettings({showNav}) {
                     setFirstName(firstName || '');
                     setLastName(lastName || '');
                     setPhoneNumber(phoneNumber || '');
+
+                    const imageUrl = userData.imageProfileUrl || '';
+                    setImageUrl(imageUrl);
+
                 })
                 .catch(error => {
                     console.error('Error fetching user details:', error);
@@ -56,6 +103,10 @@ function ProfileSettings({showNav}) {
                 const updatedPassenger = await updatePassengerDetails(passengerId, updatedPassengerDetails, authToken);
                 console.log('Updated passenger details:', updatedPassenger);
 
+                setFirstName(updatedPassenger.firstName || '');
+                setLastName(updatedPassenger.lastName || '');
+                setPhoneNumber(updatedPassenger.phoneNumber || '');
+
                 toast.success('Profile updated successfully!', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 3000,
@@ -72,15 +123,15 @@ function ProfileSettings({showNav}) {
 
 
 
+
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${showNav ? 'pt-4 pb-4' : ''}`}>
+            <div className={`dashboard-content ${showNav ? 'pt-4 pb-4' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-speedometer2"></i>
                         <span className="dashboard-name">My Profile</span>
                     </div>
-
 
                     {userRoles === 'USER' && (
                     <div className="container rounded bg-white mt-5 mb-5">
@@ -90,11 +141,11 @@ function ProfileSettings({showNav}) {
                                     <img
                                         className="rounded-circle mt-5"
                                         width="150px"
-                                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                                        src={imageUrl || ""}
                                         alt="Profile"
                                     />
-                                    <span className="font-weight-bold">Himal Aryal</span>
-                                    <span className="text-black-50">himalaryal321@gmail.com</span>
+                                    <span className="font-weight-bold">{`${firstName} ${lastName}`}</span>
+                                    <span className="text-black-50">{userEmail}</span>
                                     <span> </span>
                                 </div>
                             </div>
@@ -149,50 +200,72 @@ function ProfileSettings({showNav}) {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <div className="p-3 py-5">
-                                    <div className="d-flex justify-content-between align-items-center experience">
-                                        <span>Update Password</span>
-                                        <button className="btn btn-primary">
-                                            Update Password
-                                        </button>
-                                    </div>
-                                    <br/>
-                                    <div className="col-md-12">
-                                        <label className="labels">New Password</label>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                            placeholder="Enter new password"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    )}
-                    {userRoles === 'ADMIN' && (
-                        <div className="container rounded bg-white mt-5 mb-5">
-                            <div className="row">
-                                <div className="col-md-4">
                                     <div className="p-3 py-5">
                                         <div className="d-flex justify-content-between align-items-center experience">
                                             <span>Update Password</span>
-                                            <button className="btn btn-primary">
+                                            <button className="btn btn-primary" onClick={handlePasswordUpdate}>
                                                 Update Password
                                             </button>
                                         </div>
-                                        <br />
+                                        <br/>
                                         <div className="col-md-12">
+                                            <label className="labels">Old Password</label>
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                placeholder="Enter old password"
+                                                value={oldPassword}
+                                                onChange={(e) => setOldPassword(e.target.value)}
+                                                autoComplete="current-password"
+                                            />
+                                            <br/>
                                             <label className="labels">New Password</label>
                                             <input
                                                 type="password"
                                                 className="form-control"
                                                 placeholder="Enter new password"
+                                                value={newPassword}
+                                                onChange={(e) => setNewPassword(e.target.value)}
+                                                autoComplete="new-password"
                                             />
                                         </div>
                                     </div>
-                                </div>
                             </div>
+                        </div>
+                    </div>
+                    )}
+                    {userRoles === 'ADMIN' && (
+                        <div className="col-md-4">
+                                <div className="p-3 py-5">
+                                    <div className="d-flex justify-content-between align-items-center experience">
+                                        <span>Update Password</span>
+                                        <button className="btn btn-primary" onClick={handlePasswordUpdate}>
+                                            Update Password
+                                        </button>
+                                    </div>
+                                    <br/>
+                                    <div className="col-md-12">
+                                        <label className="labels">Old Password</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            placeholder="Enter old password"
+                                            value={oldPassword}
+                                            onChange={(e) => setOldPassword(e.target.value)}
+                                            autoComplete="current-password"
+                                        />
+                                        <br/>
+                                        <label className="labels">New Password</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            placeholder="Enter new password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            autoComplete="new-password"
+                                        />
+                                    </div>
+                                </div>
                         </div>
                     )}
                 </div>
@@ -201,4 +274,5 @@ function ProfileSettings({showNav}) {
     )
         ;
 }
+
 export default ProfileSettings;

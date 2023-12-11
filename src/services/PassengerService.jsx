@@ -42,22 +42,25 @@ export const updatePassengerDetails = async (passengerID, updatedPassenger, auth
     }
 };
 
-export const updatePasswordForPassenger = async (passengerID, newPassword, authToken) => {
+export const updatePasswordForPassenger = async (passengerID, oldPassword, newPassword, authToken) => {
     try {
-        const response = await axiosInstance.put(`/updatePassword/${passengerID}`, `"${newPassword}"`, {
-            headers: {
-                ...axiosInstance.defaults.headers,
-                Authorization: `Bearer ${authToken}`,
-            },
-        });
+        const response = await axiosInstance.put(
+            `/updatePassword/${passengerID}`,
+            {},
+            {
+                params: { oldPassword, newPassword },
+                headers: {
+                    ...axiosInstance.defaults.headers,
+                    Authorization: `Bearer ${authToken}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error('Error updating password for passenger:', error);
         throw error;
     }
 };
-
-
 
 export const getPassenger = async (passengerId, authToken) => {
     try {
@@ -92,7 +95,6 @@ export const getAllPassengers = async (authToken) => {
 
 
 
-
 export const deletePassenger = async (passengerId, authToken) => {
     try {
         const response = await axiosInstance.delete(`/delete/${passengerId}`, {
@@ -123,25 +125,6 @@ export const countAllPassengers = async (authToken) => {
         throw error;
     }
 };
-
-
-export const getUserInformationByEmail = async (userEmail, authToken) => {
-    try {
-        const response = await axiosInstance.get(`/user/${userEmail}`, {
-            headers: {
-                ...axiosInstance.defaults.headers,
-                Authorization: `Bearer ${authToken}`,
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching user information:', error);
-        throw error;
-    }
-};
-
-
-
 
 
 

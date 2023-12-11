@@ -6,7 +6,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Logout from "../common/Logout-handle.jsx";
 import {decodeJwtToken} from "../Authentication/TokenDecoder.jsx";
-import {getUserInformationByEmail} from "../../services/PassengerService.jsx";
+import {getUserInformationByEmail} from "../../services/UserService.jsx";
+
 // eslint-disable-next-line react/prop-types
 function SideNavbar({ showNav, setShowNav }) {
 
@@ -121,12 +122,6 @@ function SideNavbar({ showNav, setShowNav }) {
                                 </li>
                             </>
                         )}
-                        <li>
-                            <Link to="/my-profile">
-                                <i className="bi-person-rolodex"></i>
-                                <span className="menu-item-nav">My Profile</span>
-                            </Link>
-                        </li>
                     </ul>
                     <ul className="user-logout-darkmode-actions">
                         <li>
