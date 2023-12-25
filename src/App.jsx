@@ -15,49 +15,69 @@ import AdminBus from "./components/Admin/AdminBus.jsx";
 import AdminReservation from "./components/Admin/AdminReservation.jsx";
 import ProfileSettings from "./components/Passenger/ProfileSettings.jsx";
 import ProfileCard from "./components/Passenger/ProfileCard.jsx";
-
-
+import TokenExpirationChecker from "./components/Authentication/TokenExpirationChecker.jsx";
 log.setLevel(log.levels.DEBUG);
-
 
 function App() {
 
     const userRoles = localStorage.getItem('userRoles');
 
+    const [aryalNavCon, setAryalNavCon] = useState(true);
 
-    const [showNav, setShowNav] = useState(true);
+
+
+
     return (
-
         <Router>
             <div className="App">
                 {userRoles ? (
-                    <SideNavbar showNav={showNav} setShowNav={setShowNav} />
-
-                ) : null}
-                <Routes>
-
-                    {/*<Route path={"/"} element={<LandingPage/>}></Route>*/}
-                    <Route path={"/"} element={<LoginSignup/>}></Route>
-                    <Route path="/passenger-reservation" element={<ReservationDashboard showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/my-reservation" element={<MyReservation showNav={showNav} setShowNav={setShowNav}/>} />
-
-                    <Route path="/profile-settings" element={<ProfileSettings  showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/profile-card" element={<ProfileCard  showNav={showNav} setShowNav={setShowNav} />} />
-
-                    <Route path="/admin-dashboard" element={<AdminDashboard showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/admin-passenger" element={<AdminPassenger showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/admin-route" element={<AdminRoute showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/admin-bus" element={<AdminBus showNav={showNav} setShowNav={setShowNav} />} />
-                    <Route path="/admin-reservation" element={<AdminReservation showNav={showNav} setShowNav={setShowNav} />} />
-
-                </Routes>
+                    <>
+                        <SideNavbar aryalNavCon={aryalNavCon} setAryalNavCon={setAryalNavCon} />
+                        <TokenExpirationChecker>
+                            <Routes>
+                                {/*<Route path={"/"} element={
+                                <LandingPage/>
+                                }></Route>*/}
+                                <Route path="/passenger-reservation" element={
+                                    <ReservationDashboard aryalNavCon={aryalNavCon} />
+                                } />
+                                <Route path="/my-reservation" element={
+                                    <MyReservation aryalNavCon={aryalNavCon} />
+                                } />
+                                <Route path="/profile-settings" element={
+                                    <ProfileSettings   aryalNavCon={aryalNavCon} />
+                                } />
+                                <Route path="/profile-card" element={
+                                    <ProfileCard  aryalNavCon={aryalNavCon}  />
+                                } />
+                                <Route path="/admin-dashboard" element={
+                                    <AdminDashboard  aryalNavCon={aryalNavCon}  />
+                                } />
+                                <Route path="/admin-passenger" element={
+                                    <AdminPassenger  aryalNavCon={aryalNavCon} />
+                                } />
+                                <Route path="/admin-route" element={
+                                    <AdminRoute  aryalNavCon={aryalNavCon}  />
+                                } />
+                                <Route path="/admin-bus" element={
+                                    <AdminBus  aryalNavCon={aryalNavCon}  />
+                                } />
+                                <Route path="/admin-reservation" element={
+                                    <AdminReservation  aryalNavCon={aryalNavCon} />
+                                } />
+                            </Routes>
+                        </TokenExpirationChecker>
+                    </>
+                ) : (
+                    <Routes>
+                        <Route path={"/"} element={
+                            <LoginSignup/>
+                        }></Route>
+                    </Routes>
+                )}
             </div>
             <ToastContainer />
         </Router>
-
-
-
     )
 }
-
 export default App

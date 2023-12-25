@@ -26,7 +26,7 @@
     position: fixed;
     left: 130px;
     /*width: 100%;*/
-    width: calc(100% - 130px);
+    width: calc(100% - 140px);
     height: 100vh;
     transition: left 0.3s ease, width 0.3s ease;
     overflow-x: hidden;
@@ -60,14 +60,15 @@
 
     /*purae collapsed bhae sakepachi ko */
     .dashboard-content {
-        left: -5px;
-        width: calc(101% - 0px);
+        left: 5px;
+        width: calc(101% - 17px);
 
         transition: left 0.3s ease, width 0.3s ease, padding-left 0.3s ease;
     }
 
     /*sano banauda setting haru*/
     .dashboard-content.body-area {
+
         left: 70px;
         width: calc(100% - 80px);
         padding-left: 20px;
@@ -138,6 +139,13 @@
 }
 
 
+.dashboard-box-name{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+
 .dashboard-content .dashboard-boxes {
     display: flex;
     flex-wrap: wrap;
@@ -162,6 +170,8 @@
     color: #000;
 }
 
+
+
 .dashboard-boxes .dashboard-box .dashboard-name {
     white-space: nowrap;
     font-size: 18px;
@@ -185,10 +195,9 @@
 
 
 
-#overlay {
-    justify-content: flex-start;
+.dark .dashboard-name {
+    color: white !important;
 }
-
 
 
 @media screen and (min-width: 768px) {

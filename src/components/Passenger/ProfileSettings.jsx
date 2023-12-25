@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import {getUserInformationByEmail, updatePasswordForUser} from "../../services/UserService.jsx";
 
 // eslint-disable-next-line react/prop-types
-function ProfileSettings({showNav}) {
+function ProfileSettings({aryalNavCon}) {
 
 
     const userRoles = localStorage.getItem('userRoles');
@@ -125,8 +125,8 @@ function ProfileSettings({showNav}) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-gear"></i>

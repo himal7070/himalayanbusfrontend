@@ -5,7 +5,7 @@ import {getAllRoutes} from "../../services/RouteService.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-function Route({ showNav }) {
+function Route({ aryalNavCon }) {
 
 
     const [routes, setRoutes] = useState([]);
@@ -36,8 +36,8 @@ function Route({ showNav }) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-person-fill"></i>

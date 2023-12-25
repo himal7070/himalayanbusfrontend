@@ -4,12 +4,13 @@ import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Logout from "../common/Logout-handle.jsx";
+import Logout from "../Authentication/Logout-handle.jsx";
 import {decodeJwtToken} from "../Authentication/TokenDecoder.jsx";
 import {getUserInformationByEmail} from "../../services/UserService.jsx";
+import NotificationMenu from "./Notification.jsx";
 
 // eslint-disable-next-line react/prop-types
-function SideNavbar({ showNav, setShowNav }) {
+function SideNavbar({ aryalNavCon , setAryalNavCon }) {
 
 
     const userRoles = localStorage.getItem('userRoles');
@@ -44,29 +45,39 @@ function SideNavbar({ showNav, setShowNav }) {
 
 
 
+
+
     return (
 
-        <div className={`body-area ${showNav ? ' body-padding' : ''}`}>
-            <header className={`navHeader ${showNav ? ' body-padding' : ''}`}>
+        <div className={`body-area ${aryalNavCon ? ' body-padding' : ''}`}>
+            <header className={`navHeader ${aryalNavCon ? ' body-padding' : ''}`}>
                 <div className="toggleBarHeader">
                     <i
-                        className={`bi ${showNav ? 'bi-x' : 'bi-list'}`}
-                        onClick={() => setShowNav(!showNav)}/>
+                        className={`bi ${aryalNavCon ? 'bi-x' : 'bi-list'}`}
+                        onClick={() => setAryalNavCon(!aryalNavCon)}/>
                 </div>
                 <span className="my-logo-name">Himalayan Bus</span>
-                <Link to="/profile-card">
-                    <div className="headerProfile_img">
-                        {imageUrl ? (
-                            <img src={imageUrl} alt="User" />
-                        ) : (
-                            <span>Loading image...</span>
-                        )}
-                    </div>
-                </Link>
+                <div className="headerRight">
+                    <NotificationMenu/>
+                    <Link to="/profile-card">
+
+                        <div className="headerProfile_img">
+
+                            {imageUrl ? (
+                                <>
+                                    <img src={imageUrl} alt="User"/>
+
+                                </>
+                            ) : (
+                                <span>Loading image...</span>
+                            )}
+                        </div>
+                    </Link>
+                </div>
             </header>
-            <div className={`sideNavBar ${showNav ? 'show' : ''}`}>
+            <div className={`sideNavBar ${aryalNavCon ? 'show' : ''}`}>
                 <nav className="nav">
-                    <ul className={`menu-items${showNav ? '' : 'collapsed'}`}>
+                    <ul className={`menu-items${aryalNavCon ? '' : 'collapsed'}`}>
                         {userRoles === 'ADMIN' && (
                             <>
                                 <li>

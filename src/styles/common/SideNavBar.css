@@ -165,24 +165,15 @@ body.dark {
 }
 
 .dark .my-logo-name {
-    color: white !important;
+    color: black !important;
 }
 
-.dark .sidebar {
-    background-color: #222;
-}
 
-.dark .menu li a i {
-    color: white;
-}
 
-.dark .menu li a .menu-item-nav {
-    color: white;
-}
 
-.dark .sidebar-toggle {
-    color: white;
-}
+
+
+
 
 
 
@@ -220,6 +211,14 @@ body.dark {
 
 }
 
+
+
+/* CSS */
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 
 

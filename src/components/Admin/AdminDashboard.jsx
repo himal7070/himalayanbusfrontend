@@ -8,7 +8,7 @@ import {countAllAdmin} from "../../services/AdminService.jsx";
 import {countAllBus} from "../../services/BusService.jsx";
 import {countTodayReservations} from "../../services/ReservationService.jsx";
 // eslint-disable-next-line react/prop-types
-function AdminDashboard({ showNav }) {
+function AdminDashboard({ aryalNavCon }) {
 
 
     const [TodayReservationCount, setTodayReservationCount] = useState(null);
@@ -100,8 +100,8 @@ function AdminDashboard({ showNav }) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-speedometer2"></i>
@@ -110,12 +110,12 @@ function AdminDashboard({ showNav }) {
                     <div className="dashboard-boxes">
                         <div className="dashboard-box three">
                             <i className="bi-person-fill"></i>
-                            <span className="dashboard-name">Admins</span>
+                            <span className="dashboard-box-name">Admins</span>
                             <span className="dashboard-number">{AdminCount !== null ? AdminCount : '--'}</span>
                         </div>
                         <div className="dashboard-box two">
                             <i className="bi-check-circle-fill"></i>
-                            <span className="dashboard-name">Reservations</span>
+                            <span className="dashboard-box-name">Reservations</span>
                             <span className="dashboard-number">{TodayReservationCount !== null && typeof TodayReservationCount === 'object'
                                 ? TodayReservationCount.Total !== undefined
                                     ? TodayReservationCount.Total !== 0
@@ -127,25 +127,25 @@ function AdminDashboard({ showNav }) {
                         </div>
                         <div className="dashboard-box three">
                             <i className="bi-envelope-check"></i>
-                            <span className="dashboard-name">Feedbacks</span>
+                            <span className="dashboard-box-name">Feedbacks</span>
                             <span className="dashboard-number">--</span>
                         </div>
                     </div>
                     <div style={{marginTop: '30px'}} className="dashboard-boxes">
                         <div className="dashboard-box one">
                             <i className="bi-person-circle"></i>
-                            <span className="dashboard-name">Passengers</span>
+                            <span className="dashboard-box-name">Passengers</span>
                             <span
                                 className="dashboard-number">{passengerCount !== null ? passengerCount : '--'}</span>
                         </div>
                         <div className="dashboard-box one">
                             <i className="bi-bus-front-fill"></i>
-                            <span className="dashboard-name">Buses</span>
+                            <span className="dashboard-box-name">Buses</span>
                             <span className="dashboard-number">{BusCount !== null ? BusCount : '--'}</span>
                         </div>
                         <div className="dashboard-box two">
                             <i className="bi-geo-alt-fill"></i>
-                            <span className="dashboard-name">Routes</span>
+                            <span className="dashboard-box-name">Routes</span>
                             <span className="dashboard-number">{RouteCount !== null ? RouteCount : '--'}</span>
                         </div>
                     </div>

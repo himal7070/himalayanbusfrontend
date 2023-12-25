@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '/src/styles/common/Dashboard.css'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,9 +8,10 @@ import {searchBusByRoute} from "../../services/BusService.jsx";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {addReservation} from "../../services/ReservationService.jsx";
 import {toast} from "react-toastify";
+import {connectWebSocket, disconnectWebSocket} from "../../services/WebSocketMessageService.jsx";
 
 // eslint-disable-next-line react/prop-types
-function ReservationDashboard({ showNav}) {
+function ReservationDashboard({ aryalNavCon }) {
 
 
     const [routeFrom, setRouteFrom] = useState('');
@@ -32,6 +33,7 @@ function ReservationDashboard({ showNav}) {
         });
         setOpenDialog(true);
     };
+
 
 
 
@@ -131,8 +133,8 @@ function ReservationDashboard({ showNav}) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-speedometer2"></i>

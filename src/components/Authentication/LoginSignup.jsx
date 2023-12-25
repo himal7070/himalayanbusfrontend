@@ -7,8 +7,7 @@ import {login} from "../../services/LoginService.jsx";
 import {addPassenger} from "../../services/PassengerService.jsx";
 import GoogleLoginButton from "./GoogleLogin .jsx";
 import {decodeJwtToken} from "./TokenDecoder.jsx";
-import Logout from "../common/Logout-handle.jsx";
-import {Link} from "react-router-dom";
+import Logout from "./Logout-handle.jsx";
 
 
 // eslint-disable-next-line react/prop-types
@@ -46,18 +45,6 @@ function LoginSignup() {
 
                 localStorage.setItem('userRoles', userRoles);
 
-                const tokenExpiry = decodedToken.exp * 1000;
-                const expiresInMilliseconds = tokenExpiry - Date.now();
-
-                if (expiresInMilliseconds <= 0) {
-                    Logout();
-                } else {
-
-                    setTimeout(() => {
-                        Logout();
-                    }, expiresInMilliseconds);
-                }
-
                 if (userRoles.includes('USER')) {
                     window.location.href = '/passenger-reservation';
                 } else if (userRoles.includes('ADMIN')) {
@@ -78,6 +65,7 @@ function LoginSignup() {
             });
         }
     };
+
 
 
 

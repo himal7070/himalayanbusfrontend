@@ -67,3 +67,27 @@ export const searchBusByRoute = async (routeFrom, routeTo, authToken, journeyDat
     }
 };
 
+
+
+export const delayBusDeparture = async (busId, delayMinutes, authToken) => {
+    try {
+        const response = await axiosInstance.put(`/delayDeparture/${busId}/${delayMinutes}`, null, {
+            headers: {
+                ...axiosInstance.defaults.headers,
+                Authorization: `Bearer ${authToken}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error delaying bus departure:', error);
+        throw error;
+    }
+};
+
+
+
+
+
+

@@ -3,7 +3,7 @@ import {decodeJwtToken} from "../Authentication/TokenDecoder.jsx";
 import {Link} from "react-router-dom";
 import {getUserInformationByEmail} from "../../services/UserService.jsx";
 // eslint-disable-next-line react/prop-types
-function MyProfileCard({showNav}) {
+function MyProfileCard({aryalNavCon}) {
 
 
     const getAccessToken = () => {
@@ -39,8 +39,8 @@ function MyProfileCard({showNav}) {
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-card-image"></i>

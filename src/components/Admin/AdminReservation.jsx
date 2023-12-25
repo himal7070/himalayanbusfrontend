@@ -5,7 +5,7 @@ import {getAllReservations} from "../../services/ReservationService.jsx";
 
 
 // eslint-disable-next-line react/prop-types
-function AdminReservation({ showNav }) {
+function AdminReservation({ aryalNavCon }) {
 
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,8 +35,8 @@ function AdminReservation({ showNav }) {
 
 
   return (
-      <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-        <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+      <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+        <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
           <div className="dashboard-overview">
             <div className="dashboard-title">
               <i className="bi-person-fill"></i>

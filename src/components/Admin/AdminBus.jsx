@@ -1,22 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import '/src/styles/common/Dashboard.css'
 import '/src/styles/common/Table.css'
-import {viewAllBus} from "../../services/BusService.jsx";
-
+import {delayBusDeparture, viewAllBus} from "../../services/BusService.jsx";
+import {sendNotification} from "../../services/WebSocketMessageService.jsx";
 
 // eslint-disable-next-line react/prop-types
-function Bus({ showNav }) {
+function Bus({ aryalNavCon }) {
 
 
     const [buses, setBuses] = useState([]);
+
+    const [delayMinutes, setDelayMinutes] = useState(0);
+    const [selectedBusId, setSelectedBusId] = useState(null);
 
     const getAccessToken = () => {
         return localStorage.getItem('accessToken');
     };
 
-
-
     useEffect(() => {
+
         const fetchRoutes = async () => {
             try {
                 const authToken = getAccessToken();
@@ -30,14 +32,41 @@ function Bus({ showNav }) {
         fetchRoutes().catch((error) => {
             console.error('Unhandled error in fetchPassengers:', error);
         });
+
     }, []);
+
+
+
+    const handleDelayDeparture = async (busId, delay) => {
+        try {
+            const authToken = getAccessToken();
+            await delayBusDeparture(busId, delayMinutes, authToken);
+
+            const message = {
+                busId: busId,
+                message: 'Your bus departure time has been delayed!'
+            };
+            sendNotification(message);
+
+            const updatedBuses = buses.map((bus) =>
+                bus.busId === busId ? { ...bus, delayMinutes: delayMinutes } : bus
+            );
+            setBuses(updatedBuses);
+            setSelectedBusId(null);
+        } catch (error) {
+            console.error('Error delaying departure:', error);
+        }
+
+    };
 
 
 
 
     return (
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
+
+
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-person-fill"></i>
@@ -60,6 +89,7 @@ function Bus({ showNav }) {
                                 <th>Total Seats</th>
                                 <th>Available Seats</th>
                                 <th>Fare</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -72,7 +102,40 @@ function Bus({ showNav }) {
                                     <td>{bus.routeFrom}</td>
                                     <td>{bus.routeTo}</td>
                                     <td>{bus.journeyDate}</td>
-                                    <td>{bus.departureTime}</td>
+                                    <td>
+                                        {selectedBusId === bus.busId ? (
+                                            <>
+                                                <input
+                                                    type="number"
+                                                    placeholder="Delay (min)"
+                                                    onChange={(e) =>
+                                                        setDelayMinutes(parseInt(e.target.value, 10))
+                                                    }
+                                                />
+                                                <button
+                                                    onClick={() => {
+                                                        handleDelayDeparture(bus.busId, delayMinutes);
+                                                    }}
+                                                >
+                                                    Save
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {bus.departureTime}{' '}
+                                                <span style={{color: 'red'}}>
+                                                {bus.delayMinutes > 0 ? `+${bus.delayMinutes}` : ''}
+                                            </span>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedBusId(bus.busId);
+                                                    }}
+                                                >
+                                                    Edit
+                                                </button>
+                                            </>
+                                        )}
+                                    </td>
                                     <td>{bus.arrivalTime}</td>
                                     <td>{bus.totalSeats}</td>
                                     <td>{bus.availableSeats}</td>

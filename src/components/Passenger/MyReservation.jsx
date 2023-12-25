@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import {toast} from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
-function MyReservation({ showNav }) {
+function MyReservation({ aryalNavCon }) {
 
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -72,13 +72,14 @@ function MyReservation({ showNav }) {
 
     return (
 
-        <section className={`dashboard-section ${showNav ? 'body-area' : ''}`}>
-            <div className={`dashboard-content ${showNav ? 'body-area' : ''}`}>
+        <section className={`dashboard-section ${aryalNavCon ? 'body-area' : ''}`}>
+            <div className={`dashboard-content ${aryalNavCon ? 'body-area' : ''}`}>
                 <div className="dashboard-overview">
                     <div className="dashboard-title">
                         <i className="bi-calendar-check-fill"></i>
                         <span className="dashboard-name">My Reservation</span>
                     </div>
+
 
                     <div className="reservation-dashboard">
                         {activeReservations.length > 0 && (
