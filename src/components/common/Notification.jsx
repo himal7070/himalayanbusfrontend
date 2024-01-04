@@ -29,19 +29,23 @@ const NotificationMenu = () => {
         setAnchorEl(null);
     };
 
-    const handleNotificationClick = (notificationIndex) => {
-        setNotifications((prevNotifications) => {
-            return prevNotifications.filter((_, index) => index !== notificationIndex);
-        });
+    const handleNotificationClick = (notification) => {
+        const updatedNotifications = new Set(notifications);
+        updatedNotifications.delete(notification);
+        setNotifications(updatedNotifications);
     };
+
 
     useEffect(() => {
         const initializeWebSocket = async () => {
             try {
                 connectWebSocket((notification) => {
-                    setNotifications((prevNotifications) => [...prevNotifications, { message: notification }]);
+                    setNotifications((prevNotifications) => {
+                        const updatedNotifications = new Set(prevNotifications);
+                        updatedNotifications.add(notification);
+                        return updatedNotifications;
+                    });
                 });
-
 
                 setWebSocketOpen(true);
             } catch (error) {
@@ -57,10 +61,13 @@ const NotificationMenu = () => {
         };
     }, []);
 
+    const badgeCount = [...notifications].length;
+
+
     return (
         <div>
             <IconButton onClick={handleClick} style={{ width: '40px', height: '40px' }}>
-                <Badge badgeContent={notifications.length} color="secondary" overlap="circular">
+                <Badge badgeContent={badgeCount} color="secondary" overlap="circular">
                     <NotificationsIcon style={{ fontSize: '28px', borderRadius: '50%' }} />
                 </Badge>
             </IconButton>
@@ -70,10 +77,10 @@ const NotificationMenu = () => {
                 onClose={handleClose}
                 id="notification-menu"
             >
-                {notifications.length > 0 ? (
-                    notifications.map((notification, index) => (
-                        <MenuItem key={index} onClick={() => handleNotificationClick(index)}>
-                            <Notification message={notification.message} />
+                {[...notifications].length > 0 ? (
+                    [...notifications].map((notification, index) => (
+                        <MenuItem key={index} onClick={() => handleNotificationClick(notification)}>
+                            <Notification message={notification} />
                         </MenuItem>
                     ))
                 ) : (

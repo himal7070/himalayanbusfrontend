@@ -1,0 +1,32 @@
+
+[
+  {
+    "busId": 1,
+    "busName": "Express 101",
+    "driverName": "John Doe",
+    "busType": "Double Decker",
+    "routeFrom": "City A",
+    "routeTo": "City B",
+    "journeyDate": "2023-12-30",
+    "departureTime": "08:00 AM",
+    "arrivalTime": "12:00 PM",
+    "totalSeats": 50,
+    "availableSeats": 20,
+    "fare": 25.0
+  },
+  {
+    "busId": 2,
+    "busName": "City Shuttle",
+    "driverName": "Jane Smith",
+    "busType": "Coach",
+    "routeFrom": "City B",
+    "routeTo": "City C",
+    "journeyDate": "2023-12-31",
+    "departureTime": "09:30 AM",
+    "arrivalTime": "02:00 PM",
+    "totalSeats": 40,
+    "availableSeats": 10,
+    "fare": 20.0
+  }
+
+]
