@@ -16,6 +16,8 @@ import AdminReservation from "./components/Admin/AdminReservation.jsx";
 import ProfileSettings from "./components/Passenger/ProfileSettings.jsx";
 import ProfileCard from "./components/Passenger/ProfileCard.jsx";
 import TokenExpirationChecker from "./components/Authentication/TokenExpirationChecker.jsx";
+import ForgotPassword from "./components/Authentication/Forgotpassword.jsx";
+import ResetPassword from "./components/Authentication/ResetPassword.jsx";
 log.setLevel(log.levels.DEBUG);
 
 function App() {
@@ -72,6 +74,12 @@ function App() {
                     <Routes>
                         <Route path={"/"} element={
                             <LoginSignup/>
+                        }></Route>
+                        <Route path={"/forgot-password"} element={
+                            <ForgotPassword/>
+                        }></Route>
+                        <Route path={"/reset-password"} element={
+                            <ResetPassword/>
                         }></Route>
                     </Routes>
                 )}

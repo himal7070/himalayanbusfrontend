@@ -51,6 +51,44 @@ export const updatePasswordForUser = async (email, oldPassword, newPassword, aut
 
 
 
+export const resetUserPassword = async (email) => {
+  try {
+    const response = await axiosInstance.post('/resetPassword', null, {
+      params: {
+        email,
+      },
+      headers: {
+        ...axiosInstance.defaults.headers,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error initiating password reset:', error);
+    throw error;
+  }
+};
+
+
+export const completePasswordReset = async (email, resetToken, newPassword) => {
+  try {
+    const response = await axiosInstance.put('/completeReset', null, {
+      params: {
+        email,
+        resetToken,
+        newPassword,
+      },
+      headers: {
+        ...axiosInstance.defaults.headers,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error completing password reset:', error);
+    throw error;
+  }
+};
+
+
 
 
 

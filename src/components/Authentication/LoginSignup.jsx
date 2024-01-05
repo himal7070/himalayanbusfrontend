@@ -8,6 +8,7 @@ import {addPassenger} from "../../services/PassengerService.jsx";
 import GoogleLoginButton from "./GoogleLogin .jsx";
 import {decodeJwtToken} from "./TokenDecoder.jsx";
 import Logout from "./Logout-handle.jsx";
+import {Link} from "react-router-dom";
 
 
 // eslint-disable-next-line react/prop-types
@@ -203,7 +204,7 @@ function LoginSignup() {
                                             </div>
 
                                             <div className="TextLink">
-                                                <a href="#">Forgot password?</a>
+                                                <Link to="/forgot-password">Forgot password?</Link>
                                             </div>
 
                                             <div className="Field Btn">
