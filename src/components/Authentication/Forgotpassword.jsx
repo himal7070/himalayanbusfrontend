@@ -11,6 +11,7 @@ function ForgotPassword() {
         try {
             await resetUserPassword(email);
             console.log('Password reset initiated successfully.');
+            window.location.href = '/reset-password';
         } catch (error) {
             console.error('Error initiating password reset:', error);
         }
@@ -20,15 +21,17 @@ function ForgotPassword() {
         setEmail(event.target.value);
     };
 
+    const handleLinkClick = (e) => {
+        e.preventDefault();
+        handleResetPassword();
+    };
+
     return (
         <Container component="main" maxWidth="sm" className="container">
             <Typography component="h2" variant="h5">
                 Password Reset
             </Typography>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleResetPassword();
-            }} className="form">
+            <form className="form">
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -42,9 +45,8 @@ function ForgotPassword() {
                     onChange={handleEmailChange}
                 />
 
-                <Link to="/reset-password" style={{ textDecoration: 'none' }}>
+                <Link to="/reset-password" onClick={handleLinkClick} style={{ textDecoration: 'none' }}>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"

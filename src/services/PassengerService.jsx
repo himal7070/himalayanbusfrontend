@@ -27,9 +27,9 @@ export const addPassenger = async (user) => {
 };
 
 
-export const updatePassengerDetails = async (passengerID, updatedPassenger, authToken) => {
+export const updatePassengerDetails = async (userID, updatedPassenger, authToken) => {
     try {
-        const response = await axiosInstance.put(`/updateDetails/${passengerID}`, updatedPassenger, {
+        const response = await axiosInstance.put(`/updateDetails/${userID}`, updatedPassenger, {
             headers: {
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,

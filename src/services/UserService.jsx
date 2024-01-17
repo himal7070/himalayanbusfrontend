@@ -90,9 +90,6 @@ export const completePasswordReset = async (email, resetToken, newPassword) => {
 
 
 
-
-
-
 export default axiosInstance;
 
 

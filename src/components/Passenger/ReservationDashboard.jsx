@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '/src/styles/common/Dashboard.css'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import '/src/styles/Passenger/ReservationDashboard.css'
 import '/src/styles/Passenger/MyReservation.css'
 import {searchBusByRoute} from "../../services/BusService.jsx";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {addReservation} from "../../services/ReservationService.jsx";
 import {toast} from "react-toastify";
-import {connectWebSocket, disconnectWebSocket} from "../../services/WebSocketMessageService.jsx";
 
 // eslint-disable-next-line react/prop-types
 function ReservationDashboard({ aryalNavCon }) {
@@ -24,17 +23,16 @@ function ReservationDashboard({ aryalNavCon }) {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedBus, setSelectedBus] = useState(null);
 
+
     const handleOpenDialog = (bus) => {
         setSelectedBus({
             ...bus,
-            routeFrom: routeFrom,
-            routeTo: routeTo,
+            routeFrom: bus.routeFrom,
+            routeTo: bus.routeTo,
             busId: bus.busId
         });
         setOpenDialog(true);
     };
-
-
 
 
     const handleCloseDialog = () => {
@@ -47,16 +45,29 @@ function ReservationDashboard({ aryalNavCon }) {
     };
 
 
+
+
     const handleSearch = async () => {
         try {
-            const accessToken = getAccessToken();
-            const buses = await searchBusByRoute(routeFrom, routeTo, accessToken, journeyDate);
 
-            if (Array.isArray(buses) && buses.length > 0) {
-                setBusList(buses);
-                setError(null);
+            if (routeFrom.trim() !== '' || routeTo.trim() !== '') {
+                if ((routeFrom.trim() !== '' && routeTo.trim() !== '') || (routeFrom.trim() === '' && routeTo.trim() === '')) {
+                    const accessToken = getAccessToken();
+                    const buses = await searchBusByRoute(routeFrom, routeTo, accessToken, journeyDate);
+
+                    if (Array.isArray(buses) && buses.length > 0) {
+                        setBusList(buses);
+                        setError(null);
+                    } else {
+                        setError('No buses found for the given route');
+                        setBusList([]);
+                    }
+                } else {
+                    setError('Please fill in all search fields.');
+                    setBusList([]);
+                }
             } else {
-                setError('No buses found for the given route');
+                setError('Please fill in all search fields.');
                 setBusList([]);
             }
         } catch (error) {
@@ -68,6 +79,22 @@ function ReservationDashboard({ aryalNavCon }) {
             setBusList([]);
         }
     };
+
+
+
+    // useEffect(() => {
+    //     if (!routeFrom || !routeTo) {
+    //         setBusList([]);
+    //         setError(null);
+    //         return;
+    //     }
+    //
+    //     const searchTimeout = setTimeout(handleSearch, 500);
+    //
+    //     return () => clearTimeout(searchTimeout);
+    // }, [routeFrom, routeTo, journeyDate]);
+
+
 
 
     const handleConfirmReservation = async (numberOfSeatsToBook) => {
@@ -129,6 +156,38 @@ function ReservationDashboard({ aryalNavCon }) {
     };
 
 
+    const [routeFromSuggestions, setRouteFromSuggestions] = useState([]);
+    const [routeToSuggestions, setRouteToSuggestions] = useState([]);
+
+    const handleSearchRouteFrom = async (input) => {
+        try {
+            setRouteFrom(input);
+
+            const accessToken = getAccessToken();
+            const suggestions = await searchBusByRoute(input, '', accessToken);
+            const uniqueRouteFromSuggestions = Array.from(new Set(suggestions.map((bus) => bus.routeFrom)));
+            setRouteFromSuggestions(uniqueRouteFromSuggestions);
+
+
+        } catch (error) {
+            console.error('Error fetching suggestions for Route From:', error);
+        }
+    };
+
+    const handleSearchRouteTo = async (input) => {
+        try {
+            setRouteTo(input);
+
+            const accessToken = getAccessToken();
+            const suggestions = await searchBusByRoute('', input, accessToken);
+            const uniqueRouteToSuggestions = Array.from(new Set(suggestions.map((bus) => bus.routeTo)));
+            setRouteToSuggestions(uniqueRouteToSuggestions);
+
+
+        } catch (error) {
+            console.error('Error fetching suggestions for Route To:', error);
+        }
+    };
 
 
 
@@ -147,22 +206,39 @@ function ReservationDashboard({ aryalNavCon }) {
                         <div className="busSearchInput">
                             <label className="busSearchLabel">
                                 Route From:
-                                <input
-                                    className="busSearchInputField"
-                                    type="text"
-                                    value={routeFrom}
-                                    onChange={(e) => setRouteFrom(e.target.value)}
+                                <Autocomplete
+                                    freeSolo
+                                    options={routeFromSuggestions}
+                                    onInputChange={(e, value) => handleSearchRouteFrom(value)}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className="busSearchInputField"
+                                            type="text"
+                                            value={routeFrom}
+                                            onChange={(e) => setRouteFrom(e.target.value)}
+                                            style={{width: '100%'}}
+                                        />
+                                    )}
                                 />
                             </label>
                         </div>
                         <div className="busSearchInput">
                             <label className="busSearchLabel">
                                 Route To:
-                                <input
-                                    className="busSearchInputField"
-                                    type="text"
-                                    value={routeTo}
-                                    onChange={(e) => setRouteTo(e.target.value)}
+                                <Autocomplete
+                                    freeSolo
+                                    options={routeToSuggestions}
+                                    onInputChange={(e, value) => handleSearchRouteTo(value)}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className="busSearchInputField"
+                                            type="text"
+                                            value={routeTo}
+                                            onChange={(e) => setRouteTo(e.target.value)}
+                                        />
+                                    )}
                                 />
                             </label>
                         </div>
@@ -182,7 +258,6 @@ function ReservationDashboard({ aryalNavCon }) {
                         <button className="busSearchButton" onClick={handleSearch}>
                             Search
                         </button>
-
                         {error && <p className="busSearchError">Error: {error}</p>}
                     </div>
 
@@ -191,7 +266,11 @@ function ReservationDashboard({ aryalNavCon }) {
                     <div>
 
                         <div className="busListContainer">
-                            {busList.map((bus) => (
+                            {busList
+                                .filter(bus =>
+                                    bus.routeFrom === routeFrom && bus.routeTo === routeTo
+                                )
+                                .map(bus => (
 
                                 <div key={bus.busId} className="busCard" onClick={() => handleOpenDialog(bus)}>
                                     {/*<h3>Bus Name:</h3>*/}

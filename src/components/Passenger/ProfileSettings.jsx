@@ -92,7 +92,7 @@ function ProfileSettings({aryalNavCon}) {
             const authToken = getAccessToken();
             if (authToken) {
                 const decodedToken = decodeJwtToken(authToken);
-                const passengerId = decodedToken.passengerId;
+                const userID = decodedToken.userID;
 
                 const updatedPassengerDetails = {
                     firstName: firstName,
@@ -100,7 +100,7 @@ function ProfileSettings({aryalNavCon}) {
                     phoneNumber: phoneNumber,
                 };
 
-                const updatedPassenger = await updatePassengerDetails(passengerId, updatedPassengerDetails, authToken);
+                const updatedPassenger = await updatePassengerDetails(userID, updatedPassengerDetails, authToken);
                 console.log('Updated passenger details:', updatedPassenger);
 
                 setFirstName(updatedPassenger.firstName || '');

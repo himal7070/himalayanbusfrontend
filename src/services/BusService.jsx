@@ -46,11 +46,38 @@ export const viewAllBus = async (authToken) => {
 
 
 
+// export const searchBusByRoute = async (routeFrom, routeTo, authToken, journeyDate) => {
+//     try {
+//         let url = `/search/${routeFrom}/${routeTo}`;
+//         if (journeyDate) {
+//             url += `?journeyDate=${journeyDate}`;
+//         }
+//
+//         const response = await axiosInstance.get(url, {
+//             headers: {
+//                 ...axiosInstance.defaults.headers,
+//                 Authorization: `Bearer ${authToken}`,
+//             },
+//         });
+//
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error searching buses by route:', error);
+//         throw error;
+//     }
+// };
+
 export const searchBusByRoute = async (routeFrom, routeTo, authToken, journeyDate) => {
     try {
-        let url = `/search/${routeFrom}/${routeTo}`;
+        let url = '/search';
+        const queryParams = {};
+
+        if (routeFrom || routeTo) {
+            url += `?routeFrom=${routeFrom || ''}&routeTo=${routeTo || ''}`;
+        }
+
         if (journeyDate) {
-            url += `?journeyDate=${journeyDate}`;
+            queryParams.journeyDate = journeyDate;
         }
 
         const response = await axiosInstance.get(url, {
@@ -58,6 +85,7 @@ export const searchBusByRoute = async (routeFrom, routeTo, authToken, journeyDat
                 ...axiosInstance.defaults.headers,
                 Authorization: `Bearer ${authToken}`,
             },
+            params: queryParams,
         });
 
         return response.data;
@@ -66,6 +94,10 @@ export const searchBusByRoute = async (routeFrom, routeTo, authToken, journeyDat
         throw error;
     }
 };
+
+
+
+
 
 
 
