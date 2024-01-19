@@ -259,6 +259,7 @@ function ReservationDashboard({ aryalNavCon }) {
                             Search
                         </button>
                         {error && <p className="busSearchError">Error: {error}</p>}
+                        <br/>
                     </div>
 
                     <br/>

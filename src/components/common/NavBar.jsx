@@ -43,7 +43,13 @@ function SideNavbar({ aryalNavCon , setAryalNavCon }) {
         });
     }, []);
 
+    const handleLogoutClick = () => {
+        const isConfirmed = window.confirm('Are you sure you want to logout?');
 
+        if (isConfirmed) {
+            Logout();
+        }
+    };
 
 
 
@@ -137,7 +143,7 @@ function SideNavbar({ aryalNavCon , setAryalNavCon }) {
                     </ul>
                     <ul className="user-logout-darkmode-actions">
                         <li>
-                            <a id="logoutButton" onClick={Logout}>
+                            <a id="logoutButton" onClick={handleLogoutClick}>
                                 <i className="bi-arrow-left-circle-fill"></i>
                                 <span className="menu-item-nav">Logout</span>
                             </a>

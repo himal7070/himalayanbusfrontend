@@ -16,4 +16,19 @@ const login = async (email, password) => {
     }
 };
 
-export { login };
+
+const loginWithGoogle = async (googleUserEmail) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/loginWithGoogle`, {
+            googleUserEmail,
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Google login error:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+
+};
+
+export { login, loginWithGoogle };

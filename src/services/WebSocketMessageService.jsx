@@ -8,7 +8,7 @@ const getAccessToken = () => localStorage.getItem('accessToken');
 
 const decodeAccessToken = (accessToken) => {
   const decodedToken = decodeJwtToken(accessToken);
-  return decodedToken.passengerId;
+  return decodedToken.userID;
 };
 
 const createWebSocketClient = (onMessageReceived) => {
@@ -19,7 +19,7 @@ const createWebSocketClient = (onMessageReceived) => {
   }
 
   const socket = new SockJS('http://localhost:8080/ws');
-  const passengerId = decodeAccessToken(accessToken);
+  const userID = decodeAccessToken(accessToken);
 
   const client = new Client({
     webSocketFactory: () => socket,
@@ -29,7 +29,7 @@ const createWebSocketClient = (onMessageReceived) => {
   });
 
   client.onConnect = (frame) => {
-    client.subscribe(`/user/${passengerId}/queue/notifications`, (message) => {
+    client.subscribe(`/user/${userID}/queue/notifications`, (message) => {
       onMessageReceived(message.body);
     });
   };

@@ -5,9 +5,7 @@ import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {login} from "../../services/LoginService.jsx";
 import {addPassenger} from "../../services/PassengerService.jsx";
-import GoogleLoginButton from "./GoogleLogin .jsx";
 import {decodeJwtToken} from "./TokenDecoder.jsx";
-import Logout from "./Logout-handle.jsx";
 import {Link} from "react-router-dom";
 
 
@@ -21,9 +19,6 @@ function LoginSignup() {
     const [loginPassword, setLoginPassword] = useState('');
 
 
-    const handleGoogleLogin = (response) => {
-        console.log('Google Login Response:', response);
-    };
 
 
 
@@ -52,9 +47,9 @@ function LoginSignup() {
                     window.location.href = '/admin-dashboard';
                 }
 
-                toast.success('Login successful!', {
-                    position: 'top-right',
-                });
+                // toast.success('Login successful!', {
+                //     position: 'top-right',
+                // });
             } else {
                 toast.error('Invalid credentials. Please try again.', {
                     position: 'top-right',
@@ -128,12 +123,14 @@ function LoginSignup() {
                 console.log('Signup successful:', data);
                 toast.success('Signup successful. You can now log in.', {
                     position: "top-right",
+                    autoClose: 10000,
                 });
             })
             .catch((error) => {
                 console.error('Signup failed:', error);
                 toast.error('Signup failed. You have already an account with this email address.', {
                     position: "top-right",
+                    autoClose: 10000,
                 });
             });
     };
@@ -217,7 +214,7 @@ function LoginSignup() {
                                             </div>
 
                                             <br/>
-                                            <GoogleLoginButton handleGoogleLogin={handleGoogleLogin}/>
+
                                         </form>
                                     ) : (
                                         <form onSubmit={handleSignup} className="SignupForm">

@@ -18,9 +18,12 @@ function Passenger({ aryalNavCon }) {
         const fetchPassengers = async () => {
             try {
                 const accessToken = getAccessToken();
-                const fetchedPassengers = await getAllPassengers(accessToken);
-                setPassengers(fetchedPassengers);
-                setLoading(false);
+                setTimeout(async () => {
+                    const fetchedPassengers = await getAllPassengers(accessToken);
+                    setPassengers(fetchedPassengers);
+                    setLoading(false);
+                }, 2000);
+
             } catch (error) {
                 console.error('Error fetching passengers:', error);
                 setLoading(false)
